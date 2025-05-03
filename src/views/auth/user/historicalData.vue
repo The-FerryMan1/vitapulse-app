@@ -65,7 +65,7 @@ watch(dateFilter, async () => {
 const data = ref<TableDate[] | null>(null);
 let ws: WebSocket| null = null
 const webscoketSetup = (filter?:string)=>{
-    ws = new WebSocket(`ws://localhost:8888/api/auth/ws/historical?filter=${filter??'weekly'}`)
+    ws = new WebSocket(`ws://vitapulse-api.onrender.com/api/auth/ws/historical?filter=${filter??'weekly'}`)
 
     ws.onopen = (event) => {
         console.log('WebSocket connection established');

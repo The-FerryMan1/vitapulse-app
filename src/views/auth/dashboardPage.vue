@@ -56,7 +56,7 @@ const data = ref<bpPulse | null>(null)
 
 let ws: WebSocket | null = null;
 const setUpWebSocketConnection = () => {
-    ws = new WebSocket('ws://localhost:8888/api/ws');
+    ws = new WebSocket('wss://vitapulse-api.onrender.com/api/ws');
     ws.onopen = (event) => {
         console.log('WebSocket connection established');
     }
