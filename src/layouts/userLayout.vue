@@ -15,7 +15,6 @@ const setUpWebSocketConnection = () => {
     }
     ws.onmessage = async (event) => {
         notif.value = JSON.parse(event.data);
-        console.log(notif.value)
     }
 
     ws.onclose = () => {

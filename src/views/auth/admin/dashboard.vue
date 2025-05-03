@@ -47,7 +47,6 @@ const webscoketSetup = (filter?: string) => {
     }
     ws.onmessage = async (event) => {
         dashData.value = JSON.parse(event.data);
-        console.log(dashData.value)
 
     }
     ws.onclose = () => {
