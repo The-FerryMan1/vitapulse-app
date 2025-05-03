@@ -1,7 +1,7 @@
 import axios from "axios";
 
 export const useAxios = axios.create({
-    baseURL: 'http://localhost:8888/api/',
+    baseURL: 'https://vitapulse-api.onrender.com/api/',
     // timeout: 1000,
     withCredentials: true
 });

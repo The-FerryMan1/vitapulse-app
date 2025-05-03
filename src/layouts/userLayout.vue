@@ -9,7 +9,7 @@ import { onBeforeMount, onBeforeUnmount, onMounted, provide, ref } from 'vue';
 let ws: WebSocket | null = null;
 const notif = ref([]);
 const setUpWebSocketConnection = () => {
-    ws = new WebSocket('ws://localhost:8888/api/auth/ws/notification');
+    ws = new WebSocket('wss://https://vitapulse-api.onrender.com/api/auth/ws/notification');
     ws.onopen = (event) => {
         console.log('WebSocket connection established');
     }
