@@ -66,7 +66,7 @@ export const useUserStore = defineStore('user',()=>{
 
     const userLogout = async() =>{
         try {
-            const {status, data} = await useAxios.post('logout', {}, {
+            const {status, data} = await useAxios.post('/auth/logout', {}, {
                 withCredentials: true
             })
             isVerified.value = false
