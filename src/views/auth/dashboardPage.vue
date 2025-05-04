@@ -56,17 +56,18 @@ const data = ref<bpPulse | null>(null)
 
 let ws: WebSocket | null = null;
 const setUpWebSocketConnection = () => {
-    ws = new WebSocket('wss://vitapulse-api.onrender.com/api/ws');
+    ws = new WebSocket('wss://vitapulse-api.onrender.com/api/auth/ws/bp');
     ws.onopen = (event) => {
         console.log('WebSocket connection established');
     }
     ws.onmessage = async (event) => {
         const readings = JSON.parse(event.data);
         data.value = readings;
+        console.log(readings)
         const now = Date.now()
         if (readings.diastolic !== 254 && readings?.systolic !== 254 && readings.pulseRate !== 254) {
             if (now - lastSaved >= 3000) {
-                await postBp(readings.systolic, readings.diastolic, readings.pulseRate, now.toLocaleString());
+                await postBp(readings.systolic, readings.diastolic, readings.pulseRate, readings.date);
                 lastSaved = now;
                 toast.add({ title: 'Saved', description: 'Readings saved', color: 'success' });
             }

@@ -86,7 +86,7 @@ const notif: any = inject('notif');
         :items="computedItems" class="ms-auto sm:flex hidden">
     </UNavigationMenu>
 
-    <UPopover arrow mode="hover">
+    <UPopover v-if="auth" arrow mode="hover">
         <UButton icon="i-lucide-bell" label="" color="neutral" variant="link" />
 
         <template #content>
