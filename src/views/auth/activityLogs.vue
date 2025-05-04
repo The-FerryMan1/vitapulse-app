@@ -19,7 +19,6 @@ const AsyncTableComp = defineAsyncComponent({
 
 onMounted(async()=>{
     data.value = await getActivityLogs();
-    console.log(data.value)
 })
 
 </script>

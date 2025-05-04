@@ -8,8 +8,6 @@ const { auth, userLogout } = useUserStore();
 const router = useRouter();
 
 const computedItems = computed(() => {
-
-    console.log(auth)
     const items: NavigationMenuItem[] = [
 
         [

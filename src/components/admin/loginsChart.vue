@@ -15,7 +15,6 @@ const props = defineProps<{
 }>();
 
 const logins = props?.data?.map((item) => item.logins)
-console.log(logins)
 const chartData = computed(()=>{
    
     return {

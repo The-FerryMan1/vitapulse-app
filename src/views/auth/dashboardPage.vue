@@ -63,13 +63,18 @@ const setUpWebSocketConnection = () => {
     ws.onmessage = async (event) => {
         const readings = JSON.parse(event.data);
         data.value = readings;
-        console.log(readings)
         const now = Date.now()
         if (readings.diastolic !== 254 && readings?.systolic !== 254 && readings.pulseRate !== 254) {
             if (now - lastSaved >= 3000) {
-                await postBp(readings.systolic, readings.diastolic, readings.pulseRate, readings.date);
-                lastSaved = now;
-                toast.add({ title: 'Saved', description: 'Readings saved', color: 'success' });
+                const issaved = await postBp(readings.systolic, readings.diastolic, readings.pulseRate, readings.date);
+                if (issaved){
+                    toast.add({ title: 'Saved', description: 'Readings saved', color: 'success' });
+                    lastSaved = now;
+                }else{
+                    toast.add({ title: 'Skip', description: 'Same data, same date', color: 'info' });
+                }
+               
+               
             }
         }
     }
@@ -95,7 +100,7 @@ onBeforeUnmount(() => {
     // if (ws && ws.readyState === WebSocket.OPEN) {
 
 
-    //     console.log('WebSocket manually closed on unmount');
+    //     ('WebSocket manually closed on unmount');
     // }
 });
 

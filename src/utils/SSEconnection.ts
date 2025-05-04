@@ -5,7 +5,6 @@ export const SSEConnection = async (url: string, id: number | string, filter?:st
 
     eventSource.addEventListener('table-update', (e) => {
         data = JSON.parse(e.data);
-        console.log(data)
     })
  
     return data

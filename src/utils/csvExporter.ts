@@ -9,12 +9,10 @@ export const exportCsv = async (filter:string, userid: number | string, ) => {
         const data:TableDate[] = res
         const headers = Object.keys(data[0]).join(",") + "\n";
 
-        console.log(headers)
         const rows = data.map(row =>
             Object.values(row).join(",")
         ).join("\n");
 
-        console.log(rows)
 
         const csvContent = headers + rows;
 

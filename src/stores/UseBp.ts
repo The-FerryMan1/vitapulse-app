@@ -16,21 +16,22 @@ interface Readings {
 
 export const useBpStore = defineStore('bp', ()=>{
 
-    const postBp = async(systolic:number, diastolic:number, pulse:number, timeStamp:string)=>{
+    const postBp = async(systolic:number, diastolic:number, pulse:number, timestamp:string)=>{
         try{
             const {data} = await useAxios.post('/auth/bp', 
                 {
                     systolic,
                     diastolic,
                     pulse,
-                    timeStamp,
+                    timestamp,
                 }
             );
-            console.log(data);
-            return
+
+            if (data.message.includes('Same data')) return false
+            return true
         }catch(error){
             console.log(error);
-            return;
+            return false;
             
         }
 
