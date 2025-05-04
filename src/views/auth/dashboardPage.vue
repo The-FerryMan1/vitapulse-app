@@ -71,7 +71,7 @@ const setUpWebSocketConnection = () => {
                     toast.add({ title: 'Saved', description: 'Readings saved', color: 'success' });
                     lastSaved = now;
                 }else{
-                    toast.add({ title: 'Skip', description: 'Same data, same date', color: 'info' });
+                    toast.add({ title: 'Skipped', description: 'Data is already saved', color: 'info' });
                 }
                
                
