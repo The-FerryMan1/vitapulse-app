@@ -45,7 +45,7 @@ const AsyncFilterComp = defineAsyncComponent({
 
 
 
-const dateFilter = ref<string | undefined>(route?.query?.filter?.toString() || 'weekly');
+const dateFilter = ref<string | undefined>(route?.query?.filter?.toString() || 'daily');
 
 const date = new Date();
 const customTo = ref<Date>(date);
@@ -65,7 +65,7 @@ watch(dateFilter, async () => {
 const data = ref<TableDate[] | null>(null);
 let ws: WebSocket| null = null
 const webscoketSetup = (filter?:string)=>{
-    ws = new WebSocket(`wss://vitapulse-api.onrender.com/api/auth/ws/historical?filter=${filter??'weekly'}`)
+    ws = new WebSocket(`wss://vitapulse-api.onrender.com/api/auth/ws/historical?filter=${filter??'daily'}`)
 
     ws.onopen = (event) => {
         console.log('WebSocket connection established');

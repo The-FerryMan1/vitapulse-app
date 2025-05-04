@@ -45,13 +45,13 @@ provide('notif', notif)
         <HeadUlo />
     </header>
 
-    <main id="main" class="sm:flex-row flex flex-col justify-between h-[calc(100vh-55px)] overflow-hidden">
+    <main id="main" class="sm:flex-row flex flex-col justify-between h-[calc(100dvh-120px)] overflow-hidden">
 
         <div class="flex sm:flex-row flex-col  px-3 p-3">
             <SideNav />
         </div>
 
-        <div class="grow overflow-y-auto  h-[calc(100vh-100px)]">
+        <div class="grow overflow-y-auto  h-[calc(100dvh-120px)]">
             <slot></slot>
         </div>
 
