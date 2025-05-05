@@ -47,9 +47,9 @@ const AsyncFilterComp = defineAsyncComponent({
 
 const dateFilter = ref<string | undefined>(route?.query?.filter?.toString() || 'daily');
 
-const date = new Date();
-const customTo = ref<Date>(date);
-const customFrom = ref<Date>(date);
+const date = new Date(Date.now());
+const customTo = ref<string>(date.toISOString());
+const customFrom = ref<string>(date.toISOString());
 
 watch(dateFilter, async () => {
     if (dateFilter?.value !== 'custom') {
@@ -113,7 +113,7 @@ const submitFilter = async () => {
     }
     if (dateFilter.value === 'custom') {
         if (customFrom.value && customTo.value) {
-            router.replace({ query: { filter: 'custom', from: new Date(String(customFrom.value)).toISOString(), to: new Date(String(customTo.value)).toISOString() } });
+            router.replace({ query: { filter: 'custom', from: new Date(customFrom.value).toISOString(), to: new Date(customTo.value).toISOString() } });
             // await getBpCustom(customFrom.value.toISOString(), customTo.value.toISOString());
 
             if (auth) {
