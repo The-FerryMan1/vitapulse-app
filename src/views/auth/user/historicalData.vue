@@ -64,8 +64,8 @@ watch(dateFilter, async () => {
 
 const data = ref<TableDate[] | null>(null);
 let ws: WebSocket| null = null
-const webscoketSetup = (filter?:string)=>{
-    ws = new WebSocket(`wss://vitapulse-api.onrender.com/api/auth/ws/historical?filter=${filter??'daily'}`)
+const webscoketSetup = (filter?:string, to?:string, from?:string)=>{
+    ws = new WebSocket(`wss://vitapulse-api.onrender.com/api/auth/ws/historical?filter=${filter??'daily'}${from && to ? `&from=${from}&to=${to}`:''}`)
 
     ws.onopen = (event) => {
         console.log('WebSocket connection established');
@@ -89,9 +89,7 @@ onMounted(async () => {
 
     if (dateFilter.value !== 'custom') {
         data.value = await getBp(route?.query?.filter?.toString());
-
-        
-            webscoketSetup(route?.query?.filter?.toString());
+        webscoketSetup(route?.query?.filter?.toString());
         
     }
 });
@@ -116,7 +114,12 @@ const submitFilter = async () => {
     if (dateFilter.value === 'custom') {
         if (customFrom.value && customTo.value) {
             router.replace({ query: { filter: 'custom', from: new Date(customFrom.value).toISOString(), to: new Date(customTo.value).toISOString() } });
-            await getBpCustom(customFrom.value.toISOString(), customTo.value.toISOString());
+            // await getBpCustom(customFrom.value.toISOString(), customTo.value.toISOString());
+
+            if (auth) {
+                ws?.close()
+                webscoketSetup(route?.query?.filter?.toString(), String(customFrom.value), String(customTo.value));
+            }
             return
         }
     }

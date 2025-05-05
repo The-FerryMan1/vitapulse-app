@@ -7,10 +7,10 @@ const customTo = defineModel<any>('customTo');
 </script>
 
 <template>
-    <div class="flex gap-2">
+    <div class="flex gap-2 flex-wrap justify-between items-center">
 
 
-        <div v-if="filter === 'custom'" class="flex gap-2">
+        <div v-if="filter === 'custom'" class="flex gap-2 flex-wrap justify-between items-center">
             <label for="">From:</label>
             <input type="date" v-model="customFrom" class="p-2  rounded-md shadow-lg" />
             <label for="">To:</label>
