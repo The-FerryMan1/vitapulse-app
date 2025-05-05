@@ -113,12 +113,12 @@ const submitFilter = async () => {
     }
     if (dateFilter.value === 'custom') {
         if (customFrom.value && customTo.value) {
-            router.replace({ query: { filter: 'custom', from: new Date(customFrom.value).toISOString(), to: new Date(customTo.value).toISOString() } });
+            router.replace({ query: { filter: 'custom', from: new Date(String(customFrom.value)).toISOString(), to: new Date(String(customTo.value)).toISOString() } });
             // await getBpCustom(customFrom.value.toISOString(), customTo.value.toISOString());
 
             if (auth) {
                 ws?.close()
-                webscoketSetup(route?.query?.filter?.toString(), String(customFrom.value), String(customTo.value));
+                webscoketSetup('custom', String(customFrom.value), String(customTo.value));
             }
             return
         }
