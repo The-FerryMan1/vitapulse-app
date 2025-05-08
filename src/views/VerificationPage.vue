@@ -22,8 +22,24 @@ const verify  = async()=>{
 
 <template>
     <defaultLayout>
-        <small v-if="isSent">Verification code Sent</small>
-        <div v-if="auth">Send verification code to {{ auth?.email }}</div>
-        <UButton v-if="auth" @click="verify">Click to verify</UButton>
+        <!-- Verification Sent Message -->
+        <div v-if="isSent" class="p-4 mb-4 bg-green-500 text-white text-center rounded-lg shadow-md">
+            <p class="font-semibold">Verification Code Sent!</p>
+        </div>
+
+        <!-- Message displaying email to send the code to -->
+        <div v-if="auth" class="mb-6 text-center">
+            <p class="text-lg font-medium text-gray-800 dark:text-gray-200">
+                Send a verification code to <span class="text-blue-500">{{ auth?.email }}</span>
+            </p>
+        </div>
+
+        <!-- Button to trigger the verification -->
+        <div v-if="auth" class="flex justify-center">
+            <UButton @click="verify" size="lg" color="primary"
+                class="text-white bg-blue-500 hover:bg-blue-600 transition duration-200 rounded-lg p-3">
+                Click to Verify
+            </UButton>
+        </div>
     </defaultLayout>
 </template>

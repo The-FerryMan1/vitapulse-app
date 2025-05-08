@@ -4,19 +4,32 @@
 
 <template>
     <!-- Features Section -->
-    <section class="py-20 bg-gray-50">
+    <section class="py-20 bg-gray-50 dark:bg-gray-900 transition-colors duration-300">
         <div class="max-w-6xl mx-auto px-4 text-center">
-            <h2 class="text-3xl font-bold mb-10">Why VitaPulse?</h2>
-            <div class="grid md:grid-cols-2 gap-10">
-                <div>
-                    <div class="text-red-500 text-4xl mb-4">❤️</div>
-                    <h3 class="text-xl font-semibold">Track Your Health</h3>
-                    <p class="text-gray-600">Monitor heart rate, steps, and health metrics in real time.</p>
+            <h2 class="text-3xl md:text-4xl font-bold text-gray-800 dark:text-white mb-12">
+                Why <span class="text-red-500">VitaPulse</span>?
+            </h2>
+            <div class="grid md:grid-cols-2 gap-12">
+                <!-- Feature 1 -->
+                <div class="flex flex-col items-center text-center space-y-4">
+                    <div class="text-red-500 text-5xl">❤️</div>
+                    <h3 class="text-xl font-semibold text-gray-800 dark:text-white">
+                        Track Your Health
+                    </h3>
+                    <p class="text-gray-600 dark:text-gray-300 max-w-md">
+                        Monitor your heart rate, steps, and key health metrics in real time — all in one place.
+                    </p>
                 </div>
-                <div>
-                    <div class="text-red-500 text-4xl mb-4">🔒</div>
-                    <h3 class="text-xl font-semibold">Secure & Private</h3>
-                    <p class="text-gray-600">Your data is encrypted and never shared without consent.</p>
+
+                <!-- Feature 2 -->
+                <div class="flex flex-col items-center text-center space-y-4">
+                    <div class="text-red-500 text-5xl">🔒</div>
+                    <h3 class="text-xl font-semibold text-gray-800 dark:text-white">
+                        Secure & Private
+                    </h3>
+                    <p class="text-gray-600 dark:text-gray-300 max-w-md">
+                        Your personal health data is encrypted and stored securely. Privacy is our priority.
+                    </p>
                 </div>
             </div>
         </div>

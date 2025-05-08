@@ -38,19 +38,24 @@ provide('notif', notif)
 </script>
 
 <template>
-    <header class="sticky top-0 backdrop-blur-[4px] p-4">
+    <!-- Header with backdrop blur -->
+    <header
+        class="sticky top-0 backdrop-blur-[4px] bg-white/90 dark:bg-gray-800/80 p-4 transition-colors duration-300 z-50">
         <HeadUlo />
     </header>
 
-    <main id="main" class="sm:flex-row flex  flex-col justify-between h-[calc(100dvh-120px)] overflow-hidden">
-
-        <div class="flex sm:flex-row flex-col px-3 p-3">
+    <!-- Main content with side navigation -->
+    <main id="main" class="sm:flex-row flex flex-col justify-between h-[calc(100dvh-120px)] overflow-hidden">
+        <!-- Sidebar Section -->
+        <div
+            class="flex sm:flex-row flex-col sm:w-[250px] w-full px-3 py-4 bg-white dark:bg-gray-800 transition-colors duration-300">
             <SideNav />
         </div>
 
-        <div class="grow overflow-y-auto h-[calc(100dvh-120px)]">
-            <slot></slot>
+        <!-- Main Content Section -->
+        <div
+            class="grow overflow-y-auto h-[calc(100dvh-120px)] bg-gray-50 dark:bg-gray-900 transition-colors duration-300">
+            <slot />
         </div>
-
     </main>
 </template>

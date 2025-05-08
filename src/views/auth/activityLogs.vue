@@ -25,26 +25,34 @@ onMounted(async()=>{
 
 <template>
     <userLayout>
-        <h1 class="text-2xl mx-2  font-bold self-start">Activity logs</h1>
-        <GenericCSVExpt v-if="data?.length !== undefined && data?.length > 0" :data="data" name="ActiviyLogs" class="px-2 mt-10"/>
-        <div class="w-full p-2 rounded-2xl">
+        <!-- Title with dark mode support -->
+        <h1 class="text-2xl mx-2 font-bold self-start text-gray-800 dark:text-white">
+            Activity logs
+        </h1>
+
+        <!-- Export Button for CSV, only when data exists -->
+        <GenericCSVExpt v-if="data?.length !== undefined && data?.length > 0" :data="data" name="ActiviyLogs"
+            class="px-2 mt-10" />
+
+        <!-- Table Section -->
+        <div class="w-full p-2 rounded-2xl bg-white dark:bg-gray-800 shadow-md">
             <AsyncTableComp v-if="data?.length !== undefined && data?.length > 0" :data="data" :column-config="[
                 {
                     accessorKey: 'id',
                     header: '#',
-                    cell: ({ row }) => `#${row.getValue('id')}`
+                    cell: ({ row }) => `#${row.getValue('id')}`,
                 },
                 {
                     accessorKey: 'activity',
                     header: 'Activity',
-                    cell: ({ row }) => `${row.getValue('activity')}`
+                    cell: ({ row }) => `${row.getValue('activity')}`,
                 },
                 {
                     accessorKey: 'timestamp',
                     header: 'Timestamp',
-                    cell: ({ row }) => new Date(row.getValue('timestamp')).toLocaleString()
-                }
-            ]" />
+                    cell: ({ row }) => new Date(row.getValue('timestamp')).toLocaleString(),
+                },
+            ]" class="dark:text-white dark:border-gray-700" />
         </div>
     </userLayout>
 </template>

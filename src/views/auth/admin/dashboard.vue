@@ -84,13 +84,16 @@ provide('data', dashData)
 <template>
     <AdminLayout>
         <AsyncCount />
+
+        <!-- First Row of Content with Dark Mode -->
         <div class="flex my-10 md:flex-nowrap flex-wrap justify-between gap-4 overflow-hidden">
             <AsyncLogin />
             <AsyncAge />
         </div>
+
+        <!-- Second Row of Content with Dark Mode -->
         <div class="flex my-10 md:flex-nowrap flex-wrap justify-between gap-4 overflow-hidden">
             <AsyncAbnormalities />
         </div>
     </AdminLayout>
-
 </template>

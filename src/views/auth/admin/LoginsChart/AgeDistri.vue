@@ -29,8 +29,9 @@ const ageDisti:any = inject('data');
 
 
 <template>
-    <div class="w-full max-w-md mx-auto  bg-white p-5 rounded-2xl shadow-md">
+    <div class="w-full max-w-md mx-auto bg-white dark:bg-gray-800 p-5 rounded-2xl shadow-md">
         <AsyncChart v-if="ageDisti.counts" :data="ageDisti.counts" />
-        <h1 v-else class="text-4xl animate-pulse text-gray-500">....Loading</h1>
+        <h1 v-else class="text-4xl animate-pulse text-gray-500 dark:text-gray-300">....Loading</h1>
     </div>
 </template>
+>

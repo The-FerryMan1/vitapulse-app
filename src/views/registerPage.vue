@@ -84,36 +84,39 @@ const Submit = async (event: FormSubmitEvent<Schema>) => {
 
 <template>
     <defaultLayout>
-        <div class="flex justify-between items-center h-full w-full">
+        <div
+            class="flex justify-between items-center h-full w-full bg-gray-50 dark:bg-gray-900 transition-colors duration-300">
             <UForm :schema="schema" :state="state" @submit="Submit"
-                class="sm:w-2/5 w-full sm:mx-30 justify-self-center h-[80%] overflow-y-auto p-3  flex flex-col gap-3 ">
-                <div class="self-start text-3xl font-semibold gap-2 flex flex-col">
-                    <h1 class="">Register.</h1>
-                    <small class="text-lg font-light">Fill out the form.</small>
+                class="sm:w-2/5 w-full sm:mx-30 justify-self-center h-[80%] overflow-y-auto p-6 flex flex-col gap-4 bg-white dark:bg-slate-800 rounded-lg dark:border dark:border-gray-700 transition-all duration-300">
+                <div class="self-start text-3xl font-semibold gap-2 flex flex-col text-gray-900 dark:text-white">
+                    <h1>Register.</h1>
+                    <small class="text-lg font-light text-gray-600 dark:text-gray-300">Fill out the form.</small>
                 </div>
+
                 <errorMessage v-if="errorMess" :message="errorMess" />
+
                 <FormGroupComp label="Device Id" name="deviceId" required type="text" icon="i-lucide-monitor-smartphone"
-                    placeholder="Enter your Name" v-model="state.deviceId" />
+                    placeholder="Enter your device ID" v-model="state.deviceId" />
 
                 <FormGroupComp label="Name" name="name" required type="text" icon="i-lucide-circle-user"
-                    placeholder="Enter your Name" v-model="state.name" />
+                    placeholder="Enter your name" v-model="state.name" />
 
                 <FormGroupComp label="Email" name="email" required type="email" icon="i-lucide-mail"
-                    placeholder="Enter your valid email" v-model="state.email" />
+                    placeholder="Enter your email" v-model="state.email" />
 
                 <FormGroupComp label="Birthday" name="birthday" required type="date" icon="i-lucide-calendar"
-                    placeholder="Enter your Age" v-model="state.birthday" min="1" max="150" />
+                    v-model="state.birthday" placeholder="Birthday" />
 
                 <div class="w-full">
-                    <label for="" class="text-semibold">Sex <span class="text-red-500">*</span></label>
+                    <label for="sex" class="text-gray-700 dark:text-gray-300 font-medium mb-1 block">
+                        Sex <span class="text-red-500">*</span>
+                    </label>
                     <USelect icon="i-lucide-venus-and-mars" class="w-full" v-model="state.sex"
                         :items="['Male', 'Female']" />
                 </div>
 
-
                 <FormGroupComp label="Contact" name="contact" required type="text" icon="i-lucide-contact"
                     placeholder="Enter your contact number" v-model="state.contact" />
-
 
                 <FormGroupComp label="Password" name="password" required type="password" icon="i-lucide-lock"
                     placeholder="Enter your password" v-model="state.password" />
@@ -121,33 +124,36 @@ const Submit = async (event: FormSubmitEvent<Schema>) => {
                 <FormGroupComp label="Confirm Password" name="confirm" required type="password"
                     icon="i-lucide-lock-keyhole" placeholder="Confirm your password" v-model="state.confirm" />
 
-                <div class="flex items-center self-start gap-3 justify-end w-full">
-                    <div class="self-end">
-                        <UButton loading-icon="i-lucide-loader-circle" :disabled="isLoading" :loading="isLoading"
-                            type="submit" icon="i-lucide-log-in"
-                            class="self-end md:text-base text-sm bg-red-500  w-full">
-                            Submit</UButton>
-                    </div>
+                <div class="flex justify-end w-full">
+                    <UButton loading-icon="i-lucide-loader-circle" :disabled="isLoading" :loading="isLoading"
+                        type="submit" icon="i-lucide-log-in"
+                        class="md:text-base text-sm bg-red-500 hover:bg-red-600 text-white w-full transition-all duration-300">
+                        Submit
+                    </UButton>
                 </div>
+
                 <div>
-                    <a href="/register" class="underline text-blue-500">already have an account?</a>
+                    <NuxtLink to="/login"
+                        class="underline text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 transition-colors">
+                        Already have an account?
+                    </NuxtLink>
                 </div>
-
-
             </UForm>
 
+            <!-- Right side illustration -->
             <div class="h-full relative sm:flex hidden">
-
-                <div class="absolute w-full h-full flex flex-col justify-start items-center p-5">
-                    <h1 class="font-bold text-5xl p-5  drop-shadow-2xl  text-white">"Check your pressure before it
-                        checks you."</h1>
-                    <h1 class="font-bold text-3xl p-5 mt-60 justify-self-center text-white">VitaPulse</h1>
-                    <h1 class="font-bold text-2xl px-5 text-center justify-self-center text-white">Your health companion
-                        system — track your well-being</h1>
+                <img src="../assets/imgs/loginWallpaper.jpg" alt="Login wallpaper"
+                    class="h-[90%] w-full object-cover rounded-md aspect-square opacity-80" />
+                <div
+                    class="absolute w-full h-full top-0 left-0 flex flex-col justify-start items-center p-5 bg-black bg-opacity-40 rounded-md">
+                    <h1 class="font-bold text-5xl p-5 drop-shadow-2xl text-white text-center">
+                        "Check your pressure before it checks you."
+                    </h1>
+                    <h1 class="font-bold text-3xl p-5 mt-60 text-white">VitaPulse</h1>
+                    <h1 class="font-bold text-2xl px-5 text-center text-white">
+                        Your health companion system — track your well-being
+                    </h1>
                 </div>
-
-                <img src="../assets/imgs/loginWallpaper.jpg" alt=""
-                    class="h-[90%] w-full object-cover rounded-md aspect-square">
             </div>
         </div>
     </defaultLayout>

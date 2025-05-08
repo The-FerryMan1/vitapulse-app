@@ -6,27 +6,36 @@ defineProps<{auth: User}>()
 
 <template>
     <ul class="flex gap-5 flex-wrap">
-        <li class="bg-white p-5 rounded-2xl shadow-md flex items-center gap-3">
+        <!-- Name -->
+        <li class="bg-white dark:bg-gray-800 p-5 rounded-2xl shadow-md flex items-center gap-3 dark:text-white">
             <UIcon name="i-lucide-circle-user" class="size-5" mode="svg" />
             <p>Name:</p>
             {{ auth.name }}
         </li>
-        <li class="bg-white p-5 rounded-2xl shadow-md flex items-center gap-3">
+
+        <!-- Device ID -->
+        <li class="bg-white dark:bg-gray-800 p-5 rounded-2xl shadow-md flex items-center gap-3 dark:text-white">
             <UIcon name="i-lucide-monitor-smartphone" class="size-5" mode="svg" />
             <p>Device ID:</p>
             {{ auth.deviceId }}
         </li>
-        <li class="bg-white p-5 rounded-2xl shadow-md flex items-center gap-3">
+
+        <!-- Sex -->
+        <li class="bg-white dark:bg-gray-800 p-5 rounded-2xl shadow-md flex items-center gap-3 dark:text-white">
             <UIcon name="i-lucide-venus-and-mars" class="size-5" mode="svg" />
             <p>Sex:</p>
             {{ auth.sex }}
         </li>
-        <li class="bg-white p-5 rounded-2xl shadow-md flex items-center gap-3">
+
+        <!-- Birthday -->
+        <li class="bg-white dark:bg-gray-800 p-5 rounded-2xl shadow-md flex items-center gap-3 dark:text-white">
             <UIcon name="i-lucide-calendar" class="size-5" mode="svg" />
             <p>Birthday:</p>
             {{ auth.birthday }}
         </li>
-        <li class="bg-white p-5 rounded-2xl shadow-md flex items-center gap-3">
+
+        <!-- Contact -->
+        <li class="bg-white dark:bg-gray-800 p-5 rounded-2xl shadow-md flex items-center gap-3 dark:text-white">
             <UIcon name="i-lucide-phone" class="size-5" mode="svg" />
             <p>Contact:</p>
             {{ auth.contact }}

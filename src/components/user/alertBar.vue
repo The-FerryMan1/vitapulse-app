@@ -88,7 +88,7 @@ const chartOptions = {
 </script>
 
 <template>
-    <div class="h-[300px] w-full bg-white rounded-xl p-4 shadow">
+    <div class="h-[300px] w-full bg-white dark:bg-gray-800 rounded-xl p-4 shadow dark:shadow-lg">
         <Bar :data="chartData" :options="chartOptions" />
     </div>
 </template>

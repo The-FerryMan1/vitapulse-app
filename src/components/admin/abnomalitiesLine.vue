@@ -87,8 +87,8 @@ const chartOptions = {
 </script>
 
 <template>
-    <div>
-        <h2 class="font-semibold text-lg">Abnormal BP Status Trends</h2>
+    <div class="bg-white dark:bg-gray-800 p-4 rounded-xl shadow-lg">
+        <h2 class="font-semibold text-lg text-gray-800 dark:text-white">Abnormal BP Status Trends</h2>
         <Line :data="groupedData" :options="chartOptions" />
     </div>
 </template>
