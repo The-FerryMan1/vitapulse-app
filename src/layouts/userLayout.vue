@@ -7,7 +7,7 @@ import SideNav from '@/components/SideNav.vue';
 import { onBeforeMount, onBeforeUnmount, onMounted, provide, ref } from 'vue';
 
 let ws: WebSocket | null = null;
-const notif = ref([]);
+const notif = ref<[] | null>(null);
 const setUpWebSocketConnection = () => {
     ws = new WebSocket('wss://vitapulse-api.onrender.com/api/auth/ws/notification');
     ws.onopen = (event) => {
@@ -38,7 +38,7 @@ onBeforeUnmount(() => {
 
 
 provide('notif', notif)
-</script>
+</script>   
 
 <template>
     <!-- Header with backdrop blur -->

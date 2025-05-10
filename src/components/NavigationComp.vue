@@ -75,7 +75,7 @@ const computedItems = computed(() => {
 
 const isOpen = ref(false);
 
-const notif: any = inject('notif');
+const notification: any = inject('notif');
 </script>
 
 <template>
@@ -95,8 +95,8 @@ const notif: any = inject('notif');
                 </div>
 
 
-                <ul v-if="notif" class="mt-3 h-1/5 overflow-y-auto flex flex-col gap-2">
-                    <li v-for="item, i in notif" :key="i"
+                <ul v-if="notification" class="mt-3 h-1/5 overflow-y-auto flex flex-col gap-2">
+                    <li v-for="item, i in notification" :key="i"
                         class="flex flex-col gap-1 rounded-md p-2 w-[90%] bg-red-500 text-white">
                         <div class="flex justify-between items-center">
                             <h1 class="font-semibold text-wrap">{{ item?.message }}</h1>

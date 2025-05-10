@@ -107,6 +107,21 @@ export const useUserStore = defineStore('user',()=>{
         }
     };
 
+    const sendResetCode = async (email: string) => {
+        if (!email) throw new Error('Email is required')
+        try {
+            const { data } = await useAxios.post('/password-reset', { email }, {
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+            return
+        } catch (error) {
+            console.log(error);
+            return null
+        }
+    };
+
     const activiyLogs = async(activity: string)=>{
         try {
             await useAxios.post('/auth/user/logs', { activity }, {
@@ -132,6 +147,7 @@ export const useUserStore = defineStore('user',()=>{
     };
 
     return {
+        sendResetCode,
         getActivityLogs,
         activiyLogs,
         isVerified,

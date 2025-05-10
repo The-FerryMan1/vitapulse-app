@@ -38,6 +38,18 @@ const routes: RouteRecordRaw[] = [
     meta: { title: 'Verification', requiresGuest: true, },
   },
   {
+    path: '/reset-password',
+    name: 'reset-password',
+    component: () => import('@/views/resetPassword.vue'),
+    meta: { title: 'password reset', requiresGuest: true, },
+  },
+  {
+    path: '/reset-password/:token',
+    component: () => import('@/views/resetPassForm.vue'),
+    meta: { title: 'password reset form', requiresGuest: true, },
+  },
+
+  {
     path: '/dashboard',
     name: 'dashboard',
     component: () => import('@/views/auth/dashboardPage.vue'),
