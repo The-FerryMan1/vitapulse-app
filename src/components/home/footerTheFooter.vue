@@ -14,19 +14,16 @@
             <div>
                 <h3 class="font-medium">Quick Links</h3>
                 <ul class="mt-2 space-y-2 text-sm text-gray-300">
-                    <li><a href="#" class="hover:underline">About Us</a></li>
-                    <li><a href="#" class="hover:underline">Products</a></li>
-                    <li><a href="#" class="hover:underline">Support</a></li>
-                    <li><a href="#" class="hover:underline">Contact</a></li>
+                    <li><a href="https://mail.google.com/mail/?view=cm&fs=1&to=vitapulse@gmail.com" target="_blank">
+                            Contact Us
+                        </a></li>
                 </ul>
             </div>
 
             <div>
                 <h3 class="font-medium">Follow Us</h3>
                 <div class="flex space-x-4 mt-3">
-                    <a href="#" aria-label="Facebook" class="hover:text-blue-500">Facebook</a>
-                    <a href="#" aria-label="Instagram" class="hover:text-pink-400">Instagram</a>
-                    <a href="#" aria-label="Twitter" class="hover:text-blue-400">Twitter</a>
+                   
                 </div>
             </div>
         </div>

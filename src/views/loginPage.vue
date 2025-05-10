@@ -107,11 +107,16 @@ const Submit = async(event:FormSubmitEvent<Schema>)=>{
                     </div>
                 </div>
 
-                <div>
+                <div class="flex justify-between w-full flex-row-reverse">
                     <a href="/register"
                         class="underline text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 transition-colors duration-200">
                         Create Account?
                     </a>
+                    <a href="/reset-password"
+                        class="underline text-red-600 dark:text-red-400 hover:text-red-700 dark:hover:text-blue-300 transition-colors duration-200">
+                        Forgot password?
+                    </a>
+
                 </div>
             </UForm>
 
