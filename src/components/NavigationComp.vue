@@ -4,14 +4,34 @@ import { computed, inject, ref, toRef } from 'vue';
 import { useRouter } from 'vue-router';
 import { useUserStore } from '@/stores/useUser';
 import DropdownMenu from './DropdownMenu.vue';
+import { useColorMode } from '@nuxt/ui/runtime/vue/stubs.js';
+
 const { auth, userLogout } = useUserStore();
+
 const router = useRouter();
+const colorMode = useColorMode()
+
+
+const isDark = computed({
+    get() {
+        return colorMode.value === 'dark'
+    },
+    set(_isDark) {
+        colorMode.preference = _isDark ? 'dark' : 'light'
+    }
+})
 
 const computedItems = computed(() => {
     const items: NavigationMenuItem[] = [
 
         [
-
+            {
+                class: 'sm:text-base text-sm',
+                onSelect(){
+                    isDark.value = !isDark.value
+                },
+                slot: 'components' as const
+            },
             {
                 label: 'Sign up',
                 icon: 'i-heroicons-outline:user-add',
@@ -82,6 +102,10 @@ const notification: any = inject('notif');
 
     <UNavigationMenu arrow orientation="horizontal" variant="link" content-orientation="vertical" color="error"
         :items="computedItems" class="ms-auto sm:flex hidden">
+
+        <template #components-label>
+            <UIcon class="size-5" :name="isDark? 'i-lucide-sun':'i-lucide-moon'" />
+        </template>
     </UNavigationMenu>
 
     <UPopover v-if="auth" arrow mode="hover">
@@ -111,6 +135,8 @@ const notification: any = inject('notif');
 
 
         </template>
+
+        
     </UPopover>
     <DropdownMenu class="sm:hidden flex z-[99999999] ms-1" />
 </template>

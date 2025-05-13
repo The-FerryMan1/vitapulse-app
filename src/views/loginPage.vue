@@ -108,24 +108,24 @@ const Submit = async(event:FormSubmitEvent<Schema>)=>{
                 </div>
 
                 <div class="flex justify-between w-full flex-row-reverse">
-                    <a href="/register"
+                    <ULink href="/register"
                         class="underline text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 transition-colors duration-200">
                         Create Account?
-                    </a>
-                    <a href="/reset-password"
+                    </ULink>
+                    <ULink href="/reset-password"
                         class="underline text-red-600 dark:text-red-400 hover:text-red-700 dark:hover:text-blue-300 transition-colors duration-200">
                         Forgot password?
-                    </a>
+                    </ULink>
 
                 </div>
             </UForm>
 
             <!-- Right-side image and overlay content -->
             <div class="h-full relative sm:flex hidden">
-                <img src="../assets/imgs/loginWallpaper.jpg" alt="Login wallpaper"
-                    class="h-[90%] w-full object-cover rounded-md aspect-square opacity-80" />
+                <img src="../assets/imgs/loginWallpaper.png" alt="Login wallpaper"
+                    class="h-[90%] w-full z-10 object-contain rounded-md bg-transparent aspect-square" />
                 <div
-                    class="absolute w-full h-full top-0 left-0 flex flex-col justify-start items-center p-5 bg-black bg-opacity-40 rounded-md">
+                    class="absolute w-full h-full top-0 left-0 flex flex-col justify-start items-center p-5 bg-linear-65 from-red-600 to-pink-400 bg-opacity-40 rounded-md">
                     <h1 class="font-bold text-5xl p-5 drop-shadow-2xl text-white text-center">
                         "Check your pressure before it checks you."
                     </h1>

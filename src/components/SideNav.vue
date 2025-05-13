@@ -62,7 +62,12 @@ const userItems = ref<NavigationMenuItem[][]>([
             ]
         },
         {
-            label: 'Activiy logs',
+            label: 'Guidelines',
+            icon: 'i-lucide-book-check',
+            to: { name: 'guidelines' }
+        },
+        {
+            label: 'Activity logs',
             icon: 'i-lucide-logs',
             to: { name: 'activiy-user' }
         },
@@ -110,6 +115,11 @@ const adminItems = ref<NavigationMenuItem[][]>([
             label: 'User alert',
             icon: 'i-lucide-siren',
             to: { name: 'users-alerts' }
+        },
+        {
+            label: 'Guidelines',
+            icon: 'i-lucide-book-check',
+            to: { name: 'guidelines' }
         },
         {
             label: 'Activity logs',

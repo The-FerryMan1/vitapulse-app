@@ -55,18 +55,6 @@ const routes: RouteRecordRaw[] = [
     component: () => import('@/views/auth/dashboardPage.vue'),
     meta: { title: 'Dashboard', requiresAuth: true, requiresVerified: true}
   },
-  // {
-  //   path: '/historical',
-  //   name: 'historical',
-  //   component: () => import('@/views/auth/user/historicalData.vue'),
-  //   meta: { requiresAuth: true, requiresVerified: true }
-  // },
-  // {
-  //   path: '/PpAndMap',
-  //   name: 'PpAndMap',
-  //   component: () => import('@/views/auth/user/PpAndMap.vue'),
-  //   meta: { requiresAuth: true, requiresVerified: true }
-  // },
   {
     path: '/anomaly',
     name: 'anomaly',
@@ -78,6 +66,12 @@ const routes: RouteRecordRaw[] = [
     name: 'alerts',
     component: () => import('@/views/auth/user/alerts.vue'),
     meta: { title: 'Alert', requiresAuth: true, requiresVerified: true }
+  },
+  {
+    path: '/guidelines',
+    name: 'guidelines',
+    component: () => import('@/views/guidelinesPage.vue'),
+    meta: { title: 'Guidelines', requiresAuth: true, requiresVerified: true }
   },
   {
     path: '/activiy-user',
