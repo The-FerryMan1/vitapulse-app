@@ -131,17 +131,19 @@ const adminItems = ref<NavigationMenuItem[][]>([
 </script>
 
 <template>
-    
 
-    <UCollapsible class="sm:hidden flex flex-col gap-2 sticky top-0 w-full shadow-sm bg-white">
-        <UButton label="On this page" class="bg-white shadow-sm" color="neutral" variant="subtle" trailing-icon="i-lucide-chevron-down" block />
+
+    <UCollapsible class="sm:hidden flex flex-col gap-2 sticky top-0 w-full shadow-sm bg-white dark:bg-gray-900">
+        <UButton label="On this page" class="bg-white dark:bg-gray-900 shadow-sm" color="neutral" variant="subtle"
+            trailing-icon="i-lucide-chevron-down" block />
 
         <template #content>
             <UNavigationMenu v-if="auth" orientation="vertical"
                 :items="auth.role === 'general' ? userItems : adminItems"
-                class="data-[orientation=vertical]:w-full sm:hidden flex  py-4 bg-white" />
+                class="data-[orientation=vertical]:w-full sm:hidden flex py-4 bg-white dark:bg-gray-900" />
         </template>
     </UCollapsible>
-    <UNavigationMenu v-if="auth" orientation="vertical" :items="auth.role === 'general' ? userItems : adminItems "
+
+    <UNavigationMenu v-if="auth" orientation="vertical" :items="auth.role === 'general' ? userItems : adminItems"
         class="data-[orientation=vertical]:w-52 sm:flex hidden" />
 </template>

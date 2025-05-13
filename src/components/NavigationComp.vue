@@ -51,6 +51,13 @@ const computedItems = computed(() => {
 
         [
             {
+                class: 'sm:text-base text-sm',
+                onSelect() {
+                    isDark.value = !isDark.value
+                },
+                slot: 'components' as const
+            },
+            {
                 label: auth?.role === 'admin' ? 'admin' : 'dashboard',
                 icon: 'i-lucide-layout-dashboard',
                 to: { name: auth?.role === 'admin' ? 'admin' : 'dashboard' },
