@@ -85,7 +85,7 @@ const Submit = async (event: FormSubmitEvent<Schema>) => {
 <template>
     <defaultLayout>
         <div
-            class="flex justify-between items-center h-full w-full bg-gray-50 dark:bg-gray-900 transition-colors duration-300">
+            class="flex justify-between items-center h-full w-full sm:bg-linear-90 bg-linear-65 from-white dark:from-slate-900 via-white dark:via-slate-900 to-red-600 transition-colors duration-300">
             <UForm :schema="schema" :state="state" @submit="Submit"
                 class="sm:w-2/5 w-full sm:mx-30 justify-self-center h-[80%] overflow-y-auto p-6 flex flex-col gap-4 bg-white dark:bg-slate-800 rounded-lg dark:border dark:border-gray-700 transition-all duration-300">
                 <div class="self-start text-3xl font-semibold gap-2 flex flex-col text-gray-900 dark:text-white">
@@ -144,13 +144,12 @@ const Submit = async (event: FormSubmitEvent<Schema>) => {
             <div class="h-full relative sm:flex hidden">
                 <img src="../assets/imgs/loginWallpaper.png" alt="Login wallpaper"
                     class="h-[90%] w-full z-10 object-contain rounded-md bg-transparent aspect-square" />
-                <div
-                    class="absolute w-full h-full top-0 left-0 flex flex-col justify-start items-center p-5 bg-radial from-red-400 from-40% to-red-700 rounded-md">
-                    <h1 class="font-bold text-5xl p-5 drop-shadow-2xl text-white text-center">
+                <div class="absolute w-full h-full top-0 left-0 flex flex-col justify-start items-center p-5 ">
+                    <h1 class="font-bold text-5xl p-5 text-shadow-2xs text-white text-center">
                         "Check your pressure before it checks you."
                     </h1>
-                    <h1 class="font-bold text-3xl p-5 mt-60 text-white">VitaPulse</h1>
-                    <h1 class="font-bold text-2xl px-5 text-center text-white">
+                    <h1 class="font-bold text-3xl text-shadow-2xs p-5 mt-60 text-white">VitaPulse</h1>
+                    <h1 class="font-bold text-2xl text-shadow-2xs px-5 text-center text-white">
                         Your health companion system — track your well-being
                     </h1>
                 </div>

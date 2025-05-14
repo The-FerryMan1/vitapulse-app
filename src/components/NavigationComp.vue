@@ -102,7 +102,11 @@ const computedItems = computed(() => {
 
 const isOpen = ref(false);
 
-const notification: any = inject('notif');
+
+const not:any = computed(()=>{
+    return inject('notif')
+})
+
 </script>
 
 <template>
@@ -120,14 +124,14 @@ const notification: any = inject('notif');
 
         <template #content>
 
-            <div class="p-4 z-[99999]">
+            <div v-if="not" class="p-4 z-[99999]">
                 <div class="flex justify-between items-center">
                     <h1 class="font-semibold">Latest alert</h1>
                 </div>
 
 
-                <ul v-if="notification" class="mt-3 h-1/5 overflow-y-auto flex flex-col gap-2">
-                    <li v-for="item, i in notification" :key="i"
+                <ul v-if="not" class="mt-3 h-1/5 overflow-y-auto flex flex-col gap-2">
+                    <li v-for="item, i in not" :key="i"
                         class="flex flex-col gap-1 rounded-md p-2 w-[90%] bg-red-500 text-white">
                         <div class="flex justify-between items-center">
                             <h1 class="font-semibold text-wrap">{{ item?.message }}</h1>
