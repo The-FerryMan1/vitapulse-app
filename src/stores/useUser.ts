@@ -31,7 +31,7 @@ export const useUserStore = defineStore('user',()=>{
             const { status, data } = await useAxios.get('/verify', {
                 withCredentials: true
             })
-            if(status === 401) throw new Error('Unauthoruzed');
+            if (status === 401) throw new Error('unauthorized');
             isVerified.value = true
             auth.value = data
             

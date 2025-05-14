@@ -128,13 +128,15 @@ const submitFilter = async () => {
 
 <template>
     <section>
-        <h1 class="text-2xl mx-2 my-10 font-bold self-start">Historical readings</h1>
+        <h1 class="text-2xl mx-2 my-10 font-bold self-start">Historical readings <UBadge> 
+            <ULink class="text-white" :to="{name: 'guidelines'}">?</ULink>
+        </UBadge></h1>
         <div class="flex gap-4 mt-3 px-3 items-end justify-start w-full">
             <ExportToCsv class="self-start me-auto" v-if="data?.length !== undefined && data?.length > 0 && auth"
                 :Data="data" :name="auth?.id" />
             <AsyncFilterComp v-model:filter="dateFilter" v-model:custom-from="customFrom" v-model:custom-to="customTo"
                 class="self-end " />
-            <UButton class="shadow-xl" label="Apply Filter" @click="submitFilter" />
+            <UButton class="shadow-xl dark:text-white" label="Apply Filter" @click="submitFilter" />
         </div>
         <div class="w-full p-2">
             <AsyncTableChart v-if="data?.length !== undefined && data?.length > 0" :Data="data" />

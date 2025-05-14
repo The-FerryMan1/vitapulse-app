@@ -99,14 +99,14 @@ const computedItems = computed(() => {
 </script>
 
 <template>
-    <UDropdownMenu class="z-50" v-if="computedItems" :items="computedItems" :ui="{
+    <UDropdownMenu class="z-[99999999] flex" v-if="computedItems" :items="computedItems" :ui="{
         content: 'w-48'
     }">
         <UButton icon="i-lucide-menu" color="neutral" variant="outline" />
 
         <template #components-label>
 
-            <div class="flex flex-row-reverse gap-1">
+            <div class="flex flex-row-reverse gap-1 mt-3">
                 <h1>{{isDark? 'light mode' :'dark mode'}}</h1>
                 <UIcon class="size-5" :name="isDark ? 'i-lucide-sun' : 'i-lucide-moon'" />
             </div>

@@ -111,7 +111,7 @@ const notification: any = inject('notif');
         :items="computedItems" class="ms-auto sm:flex hidden">
 
         <template #components-label>
-            <UIcon class="size-5" :name="isDark? 'i-lucide-sun':'i-lucide-moon'" />
+            <UIcon class="size-5" :name="isDark? 'i-lucide-sun':'i-lucide-moon'" :class="isDark? 'text-orange-300':'text-purple-600'"/>
         </template>
     </UNavigationMenu>
 
@@ -145,5 +145,5 @@ const notification: any = inject('notif');
 
         
     </UPopover>
-    <DropdownMenu class="sm:hidden flex z-[99999999] ms-1" />
+    <DropdownMenu class="sm:hidden ms-1" />
 </template>

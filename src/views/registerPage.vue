@@ -145,7 +145,7 @@ const Submit = async (event: FormSubmitEvent<Schema>) => {
                 <img src="../assets/imgs/loginWallpaper.png" alt="Login wallpaper"
                     class="h-[90%] w-full z-10 object-contain rounded-md bg-transparent aspect-square" />
                 <div
-                    class="absolute w-full h-full top-0 left-0 flex flex-col justify-start items-center p-5 bg-linear-65 from-red-600 to-pink-400 bg-opacity-40 rounded-md">
+                    class="absolute w-full h-full top-0 left-0 flex flex-col justify-start items-center p-5 bg-radial from-red-400 from-40% to-red-700 rounded-md">
                     <h1 class="font-bold text-5xl p-5 drop-shadow-2xl text-white text-center">
                         "Check your pressure before it checks you."
                     </h1>

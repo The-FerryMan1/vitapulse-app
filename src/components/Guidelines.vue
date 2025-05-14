@@ -3,6 +3,14 @@ import type { TableColumn } from '@nuxt/ui';
 import { ref } from 'vue';
 
 
+
+interface Bloodpressure {
+    blood_pressure_category: string
+    systolic: string
+    and_or: string
+    diastolic: string
+}
+
 interface Guide {
     age_group: string
     lowBp: string
@@ -15,7 +23,65 @@ interface Pulse {
     lowPulse: string
     normal_range: string
     highPulse: string
-}   
+}
+
+
+const clinicalLabel = ref<Bloodpressure[]>([
+    {
+        blood_pressure_category: "Normal",
+        systolic: "Less than 120",
+        and_or: "and",
+        diastolic: "Less than 80"
+    },
+    {
+        blood_pressure_category: "Elevated",
+        systolic: "120 - 129",
+        and_or: "and",
+        diastolic: "Less than 80"
+    },
+    {
+        blood_pressure_category: "High Blood Pressure (Hypertension) Stage 1",
+        systolic: "130 - 139",
+        and_or: "or",
+        diastolic: "80 - 89"
+    },
+    {
+        blood_pressure_category: "High Blood Pressure (Hypertension) Stage 2",
+        systolic: "140 or Higher",
+        and_or: "or",
+        diastolic: "90 or Higher"
+    },
+    {
+        blood_pressure_category: "Hypertensive Crisis (consult your doctor immediately)",
+        systolic: "Higher than 180",
+        and_or: "and/or",
+        diastolic: "Higher than 120"
+    },
+])
+
+const clinicalLabelColumn: TableColumn<Bloodpressure>[] = [
+    {
+        accessorKey: 'blood_pressure_category',
+        header: 'Blood Pressure Category',
+        cell: ({ row }) => `${row.getValue('blood_pressure_category')}`
+    },
+    {
+        accessorKey: 'systolic',
+        header: 'Systolic mmHg',
+        cell: ({ row }) => `${row.getValue('systolic')}`
+    },
+    {
+        accessorKey: 'and_or',
+        header: '',
+        cell: ({ row }) => `${row.getValue('and_or')}`
+    },
+    {
+        accessorKey: 'diastolic',
+        header: 'Diastolic mmHg',
+        cell: ({ row }) => `${row.getValue('diastolic')}`
+    },
+
+]
 
 const data = ref<Guide[]>([
     {
@@ -54,10 +120,10 @@ const data = ref<Guide[]>([
         normal_range: "120–140 / 70–90 mmHg",
         highBp: "> 150/90 mmHg (depending on health)",
     },
-    
+
 ])
 
-const columns: TableColumn<Guide>[]=[
+const columns: TableColumn<Guide>[] = [
     {
         accessorKey: 'age_group',
         header: 'Age Group',
@@ -79,8 +145,6 @@ const columns: TableColumn<Guide>[]=[
         cell: ({ row }) => `${row.getValue('highBp')}`
     },
 ]
-
-
 
 const dataPulse = ref<Pulse[]>([
     {
@@ -114,7 +178,7 @@ const dataPulse = ref<Pulse[]>([
         highPulse: "> 100 bpm",
     },
 
-    
+
 
 ])
 
@@ -146,6 +210,19 @@ const columnsdataPulse: TableColumn<Pulse>[] = [
 </script>
 
 <template>
+
+    <div>
+        <div class="mb-10 p-2">
+            <h1 class="font-semibold text-2xl p-2">Blood pressure clinical label
+            </h1>
+            <UTable :data="clinicalLabel" :columns="clinicalLabelColumn" class="flex-1" />
+
+            <small class="flex gap-2 italic items-center p-2">Ref:
+                <a class="underline text-blue-500"
+                    href="https://www.heart.org/en/health-topics/high-blood-pressure">heart.org</a>
+            </small>
+        </div>
+    </div>
     <div class="mb-10 p-2">
         <h1 class="font-semibold text-2xl p-2">Blood pressure guidelines by age <a class="underline text-blue-500"></a>
         </h1>
@@ -158,8 +235,8 @@ const columnsdataPulse: TableColumn<Pulse>[] = [
                 href="https://www.who.int/news-room/fact-sheets/detail/hypertension">who.int</a>
         </small>
     </div>
-    <div class="p-2">
-        <h1 class="font-semibold text-2xl p-2">Pulse rate guidelines <a class="underline text-blue-500"></a></h1>
+    <div class="mb-10 p-2">
+        <h1 class=" font-semibold text-2xl p-2">Pulse rate guidelines <a class="underline text-blue-500"></a></h1>
         <UTable :data="dataPulse" :columns="columnsdataPulse" class="flex-1" />
 
         <small class="flex gap-2 italic items-center p-2">Ref:
