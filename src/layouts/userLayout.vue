@@ -1,15 +1,15 @@
 <script setup lang="ts">
-import userSideBar from '../components/user/userSidebar.vue';
 import HeadUlo from '@/components/HeadUlo.vue';
 import SideNav from '@/components/SideNav.vue';
+import type {alerts} from '@/types/types';
 
-
-import { onBeforeMount, onBeforeUnmount, onMounted, provide, ref } from 'vue';
+import { onBeforeUnmount, onMounted, provide, ref } from 'vue';
 
 let ws: WebSocket | null = null;
-const notif = ref<[] | null>(null);
+const notif = ref<alerts[] | null>(null);
 const setUpWebSocketConnection = () => {
-    ws = new WebSocket('wss://vitapulse-api.onrender.com/api/auth/ws/notification');
+    // ws = new WebSocket('wss://vitapulse-api.onrender.com/api/auth/ws/notification');
+    ws = new WebSocket('ws://localhost:8888/api/auth/ws/notification');
     ws.onopen = (event) => {
         console.log('WebSocket connection established');
     }

@@ -36,6 +36,7 @@ export interface alerts {
     id: number;
     user_id: number;
     message: string;
+    isRead: boolean
     timestamp: string;
 }
 

@@ -5,6 +5,8 @@ import { useRouter } from 'vue-router';
 import { useUserStore } from '@/stores/useUser';
 import DropdownMenu from './DropdownMenu.vue';
 import { useColorMode } from '@nuxt/ui/runtime/vue/stubs.js';
+import type { alerts } from '@/types/types';
+import { useAxios } from '@/axios/useAxios';
 
 const { auth, userLogout } = useUserStore();
 
@@ -103,9 +105,29 @@ const computedItems = computed(() => {
 const isOpen = ref(false);
 
 
-const not:any = computed(()=>{
-    return inject('notif')
-})
+// const not = computed(()=>{
+//     return inject<alerts[]>('notif')
+// })
+
+const not = inject<alerts[]>('notif')
+
+const markAsRead = async(id:number)=>{
+    
+    try {
+        await useAxios.patch(`/auth/alerts/${id}`, {})
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+const markAsReadAll = async () => {
+
+    try {
+        await useAxios.patch(`/auth/alerts`, {})
+    } catch (error) {
+        console.log(error)
+    }
+}
 
 </script>
 
@@ -115,7 +137,8 @@ const not:any = computed(()=>{
         :items="computedItems" class="ms-auto sm:flex hidden">
 
         <template #components-label>
-            <UIcon class="size-5" :name="isDark? 'i-lucide-sun':'i-lucide-moon'" :class="isDark? 'text-orange-300':'text-purple-600'"/>
+            <UIcon class="size-5" :name="isDark? 'i-lucide-sun':'i-lucide-moon'"
+                :class="isDark? 'text-orange-300':'text-purple-600'" />
         </template>
     </UNavigationMenu>
 
@@ -124,30 +147,44 @@ const not:any = computed(()=>{
 
         <template #content>
 
-            <div v-if="not" class="p-4 z-[99999]">
+            <div class="p-4 z-[99999]">
                 <div class="flex justify-between items-center">
                     <h1 class="font-semibold">Latest alert</h1>
+                    <UButton v-if="not && not.length > 0" @click="markAsReadAll" variant="link"
+                        class="underline text-black dark:tex-white self-end hover:cursor-pointer text-sm">Mark as read all</UButton>
+
                 </div>
-
-
-                <ul v-if="not" class="mt-3 h-1/5 overflow-y-auto flex flex-col gap-2">
-                    <li v-for="item, i in not" :key="i"
-                        class="flex flex-col gap-1 rounded-md p-2 w-[90%] bg-red-500 text-white">
-                        <div class="flex justify-between items-center">
-                            <h1 class="font-semibold text-wrap">{{ item?.message }}</h1>
+                <ul v-if="not && not.length > 0" class="mt-3 h-1/5 overflow-y-auto flex flex-col gap-2">
+                    <li v-for="item, i in not" :key="i">
+                        <div v-if="!item?.isRead"
+                            class="flex flex-col gap-1 rounded-md p-2 w-[90%] shadow-md">
+                            <UButton @click="markAsRead(item.id)" variant="link" color="warning"
+                                class="underline self-end hover:cursor-pointer text-sm">Mark as read</UButton>
+                            <div if class="flex justify-between items-center">
+                                <h1 class="font-semibold text-wrap"
+                                    :class="item.message.includes('Hypertension') ? 'text-red-500' : ''">{{
+                                    item?.message
+                                    }}</h1>
+                            </div>
+                            <p v-if="item.timestamp" class="text-light text-sm">{{ new
+                                Date(item.timestamp).toDateString() }}</p>
+                        </div>
+                        <div v-else>
+                            <h1 class="font-semibold text-wrap">No alerts</h1>
                         </div>
 
-                        <p class="text-light text-sm">{{ new Date(item.timestamp).toDateString() }}</p>
                     </li>
-
-
                 </ul>
+                <div v-else>
+                    <h1 class="font-semibold text-wrap">No alerts</h1>
+                </div>
             </div>
+
 
 
         </template>
 
-        
+
     </UPopover>
     <DropdownMenu class="sm:hidden ms-1" />
 </template>
