@@ -20,27 +20,18 @@ const ab = computed(() => {
 })
 
 let lastSaved = Date.now();
-watch(ab, () => {
-    // const now = Date.now()
-
-    // if (ab.value && now - lastSaved >= 10000){
-    //     if (ab.value === "Hypertensive Crisis" || "Hypertension Stage 2" || "Hypertension Stage 1'" ||"Elevated"){
-    //         toast.add({ title: 'Warning', description: 'High Blood pressure detected', color: 'error', class:'float-top' })
-    //     }
-
-    //     if (ab.value === "Low BP (Hypotension)") {
-    //         toast.add({ title: 'Warning', description: 'Low Blood pressure detected', color: 'warning' })
-    //     }
-    // }
-
-
-})
-
-
+const isOpen = ref<boolean>(false)
 
 </script>
 
 <template>
+    <Teleport to="body">
+        <UAlert @update:open="isOpen = !isOpen" v-if="['Hypertensive Crisis', 'Hypertension Stage 2', 'Hypertension Stage 1', 'Elevated'].includes(ab) && !isOpen"
+            class="fixed top-0 z-50 w-full left-0" title="Abnormal Status detected" :description="ab" close
+            color="error" variant="solid" :avatar="{
+    src: '/src/assets/imgs/heart-rate.png'
+            }" />
+    </Teleport>
     <UCard class="w-full shadow-xl">
         <template #header>
             <div class=" flex items-center gap-3">

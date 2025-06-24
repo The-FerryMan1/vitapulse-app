@@ -91,7 +91,7 @@ const tableData = computed(()=>{
     <Indicator />
     <UTable sticky v-model:pagination="pagination" v-model:global-filter="globalFilter" :pagination-options="{
         getPaginationRowModel: getPaginationRowModel()
-    }" ref="table" :data="tableData" :empty="'No data found'" :columns="columns" class="w-full">
+    }" ref="table" :data="Data" :empty="'No data found'" :columns="columns" class="w-full">
         <template #bpStatus-cell="{ row }">
             <div class="flex gap-3 items-center">
                 <p>{{ row.original.bpStatus }}</p>
