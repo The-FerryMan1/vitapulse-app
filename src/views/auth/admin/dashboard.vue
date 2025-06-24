@@ -40,8 +40,8 @@ const AsyncAbnormalities = defineAsyncComponent({
 const dashData = ref([]);
 let ws: WebSocket | null = null
 const webscoketSetup = (filter?: string) => {
-    // ws = new WebSocket('wss://vitapulse-api.onrender.com/api/auth/ws/dashboard');
-    ws = new WebSocket('ws://localhost:8888/api/auth/ws/dashboard');
+    ws = new WebSocket('wss://vitapulse-api.onrender.com/api/auth/ws/dashboard');
+    // ws = new WebSocket('ws://localhost:8888/api/auth/ws/dashboard');
 
     ws.onopen = (event) => {
         console.log('WebSocket connection established');
