@@ -4,7 +4,7 @@ export const useAxios = axios.create({
     // baseURL: 'http://localhost:8888/api/', 
 
 
-    // production
+    // productions
     baseURL: 'https://vitapulse-api.onrender.com/api/', 
     withCredentials: true
 });
