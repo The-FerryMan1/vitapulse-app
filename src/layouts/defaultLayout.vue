@@ -12,7 +12,6 @@ import HeadUlo from '@/components/HeadUlo.vue';
 
     <main
         class="h-[calc(100vh-64px)] overflow-y-auto bg-white relative dark:bg-gray-900 transition-colors duration-300">
-      
         <slot />
     </main>
 </template>
