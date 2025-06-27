@@ -3,7 +3,8 @@
 </script>
 
 <template>
-    <section class="py-20 bg-red-500 dark:bg-red-600 text-white text-center transition-colors duration-300">
+    <section
+        class="py-20 bg-gradient-to-b from-white via-red-400 to-red-600 dark:from-transparent dark:via-red-600 dark:to-red-600 rounded-t-4xl text-white text-center transition-colors duration-300">
         <div class="max-w-4xl mx-auto px-4">
             <h2 class="text-3xl md:text-4xl font-bold mb-4 leading-tight">
                 Ready to take control of your health?
