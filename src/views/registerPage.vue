@@ -12,7 +12,6 @@ import { useRouter } from 'vue-router';
 const router = useRouter();
 
 const schema = z.object({
-    deviceId: z.string().min(1),
     name: z.string().min(6).max(255),
     email: z.string().email(),
     birthday: z.string().date(),
@@ -38,7 +37,6 @@ type Schema = z.infer<typeof schema>
 const isLoading = ref<boolean>(false)
 const errorMess = ref<string | null>(null);
 const state = reactive<Partial<Schema>>({
-    deviceId: undefined,
     name: undefined,
     email: undefined,
     birthday: undefined,
@@ -94,9 +92,6 @@ const Submit = async (event: FormSubmitEvent<Schema>) => {
                 </div>
 
                 <errorMessage v-if="errorMess" :message="errorMess" />
-
-                <FormGroupComp label="Device Id" name="deviceId" required type="text" icon="i-lucide-monitor-smartphone"
-                    placeholder="Enter your device ID" v-model="state.deviceId" />
 
                 <FormGroupComp label="Name" name="name" required type="text" icon="i-lucide-circle-user"
                     placeholder="Enter your name" v-model="state.name" />

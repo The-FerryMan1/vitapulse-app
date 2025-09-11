@@ -33,16 +33,6 @@ const data = computed(() => {
 
 const columns: TableColumn<User>[] = [
     {
-        accessorKey: 'id',
-        header: '#',
-        cell: ({ row }) => `#${row.getValue('id')}`
-    },
-    {
-        accessorKey: 'deviceId',
-        header: 'Device ID',
-        cell: ({ row }) => `${row.getValue('deviceId')}`
-    },
-    {
         accessorKey: 'role',
         header: 'Role',
         cell: ({ row }) => `${row.getValue('role')}`

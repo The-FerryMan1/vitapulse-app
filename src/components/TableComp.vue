@@ -21,11 +21,6 @@ const globalFilter = ref('')
 const columns = computed(()=>{
     const columns: TableColumn<TableDate>[] = [
         {
-            accessorKey: 'id',
-            header: '#',
-            cell: ({ row }) => `#${row.getValue('id')}`
-        },
-        {
             accessorKey: 'systolic',
             header: 'Systolic',
             cell: ({ row }) => `${row.getValue('systolic')}`

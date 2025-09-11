@@ -27,16 +27,6 @@ onMounted(async () => {
         <GenericCSVExpt v-if="data" :data="data" name="admin" />
         <asyncAlertsList v-if="data" :data="data" :columnConfig="[
             {
-                accessorKey: 'id',
-                header: 'Id',
-                cell: ({ row }) => `${row.getValue('id')}`
-            },
-            {
-                accessorKey: 'user_id',
-                header: 'User id',
-                cell: ({ row }) => `${row.getValue('user_id')}`
-            },
-            {
                 accessorKey: 'message',
                 header: 'Message',
                 cell: ({ row }) => `${row.getValue('message')}`
@@ -44,7 +34,7 @@ onMounted(async () => {
             {
                 accessorKey: 'timestamp',
                 header: 'Timestamp',
-                cell: ({ row }) => `${row.getValue('timestamp')}`
+                cell: ({ row }) => new Date(row.getValue('timestamp')).toLocaleString()
             },
         ]" />
     </AdminLayout>

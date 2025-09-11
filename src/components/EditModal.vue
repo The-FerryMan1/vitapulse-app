@@ -10,12 +10,11 @@ const router = useRouter();
 
 const emit = defineEmits(['change'])
 const props = defineProps<{
-    data: { id:number, deviceId:string, name:string, email:string, birthday:number, sex:string, contact:string, role:string }
+    data: { id:number, name:string, email:string, birthday:number, sex:string, contact:string, role:string }
 }>();
 
 
 const schema = z.object({
-    deviceId: z.string().min(1),
     name: z.string().min(6).max(255),
     email: z.string().email(),
     birthday: z.string().date(),
@@ -37,7 +36,6 @@ type Schema = z.infer<typeof schema>
 const isLoading = ref<boolean>(false)
 const errorMess = ref<string | null>(null);
 const state = reactive<Partial<Schema>>({
-    deviceId: props?.data?.deviceId,
     name: props?.data?.name,
     email: props?.data?.email,
     birthday: String(props?.data?.birthday),
@@ -78,9 +76,6 @@ const Submit = async (event: FormSubmitEvent<Schema>) => {
 
     <UForm :schema="schema" :state="state" @submit="Submit" class="w-full flex flex-col gap-3 z-50">
         <errorMessage v-if="errorMess" :message="errorMess" />
-
-        <FormGroupComp label="Device ID" name="deviceId" required type="text" icon="i-lucide-monitor-smartphone"
-            placeholder="Enter your device number" v-model="state.deviceId" />
 
         <FormGroupComp label="Name" name="name" required type="text" icon="i-lucide-circle-user"
             placeholder="Enter your Name" v-model="state.name" />

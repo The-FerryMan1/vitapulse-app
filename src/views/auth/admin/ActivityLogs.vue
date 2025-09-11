@@ -21,11 +21,6 @@ onMounted(async()=>{
         <ExportToCsv v-if="data" :Data="data" :name="'burat'"/>
          <GenericTable v-if="data" :data="data" :column-config="[
         {
-            accessorKey: 'id',
-            header: 'Id',
-            cell: ({row}) => `${row.getValue('id')}`
-        },
-        {
             accessorKey: 'name',
             header: 'Name',
             cell: ({row}) => `${row.getValue('name')}`

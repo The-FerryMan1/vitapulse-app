@@ -27,11 +27,6 @@ const pagination = ref({
 const columns = computed(() => {
     const columns: TableColumn<alerts>[] = [
         {
-            accessorKey: 'id',
-            header: '#',
-            cell: ({ row }) => `#${row.getValue('id')}`
-        },
-        {
             accessorKey: 'message',
             header: 'Message',
             cell: ({ row }) => `${row.getValue('message')}`
@@ -41,13 +36,7 @@ const columns = computed(() => {
             accessorKey: 'timestamp',
             header: 'Timestamp',
             cell: ({ row }) => {
-                return new Date(row.getValue('timestamp')).toLocaleString('en-US', {
-                    day: 'numeric',
-                    month: "short",
-                    hour: '2-digit',
-                    minute: '2-digit',
-                    hour12: true
-                })
+                return new Date(row.getValue('timestamp')).toLocaleString()
             }
         },
 

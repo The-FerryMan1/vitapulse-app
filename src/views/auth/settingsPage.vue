@@ -14,7 +14,6 @@ const {getUser} = useUserStore();
 
 
 const schema = z.object({
-    deviceId: z.string().min(1),
     name: z.string().min(6).max(255),
     email: z.string().email(),
     birthday: z.string().date(),
@@ -35,7 +34,6 @@ type Schema = z.infer<typeof schema>
 const isLoading = ref<boolean>(false)
 const errorMess = ref<string | null>(null);
 const state = reactive<Partial<Schema>>({
-    deviceId: undefined,
     name: undefined,
     email: undefined,
     birthday: undefined,
@@ -50,7 +48,6 @@ watch(() => state.email, () => {
 
 onMounted(async()=>{
     const data = await getUser();
-    state.deviceId = data?.deviceId
     state.name = data?.name
     state.email = data?.email
     state.birthday = data?.birthday
@@ -95,9 +92,6 @@ const Submit = async (event: FormSubmitEvent<Schema>) => {
                 <small class="text-lg font-light">Change Information</small>
             </div>
             <errorMessage v-if="errorMess" :message="errorMess" />
-
-            <FormGroupComp label="Device ID" name="deviceId" required type="text" icon="i-lucide-monitor-smartphone"
-                placeholder="Enter your device number" v-model="state.deviceId" />
 
             <FormGroupComp label="Name" name="name" required type="text" icon="i-lucide-circle-user"
                 placeholder="Enter your Name" v-model="state.name" />

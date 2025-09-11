@@ -12,14 +12,7 @@ defineProps<{auth: User}>()
             <p>Name:</p>
             {{ auth.name }}
         </li>
-
-        <!-- Device ID -->
-        <li class="bg-white dark:bg-gray-800 p-5 rounded-2xl shadow-md flex items-center gap-3 dark:text-white">
-            <UIcon name="i-lucide-monitor-smartphone" class="size-5" mode="svg" />
-            <p>Device ID:</p>
-            {{ auth.deviceId }}
-        </li>
-
+        
         <!-- Sex -->
         <li class="bg-white dark:bg-gray-800 p-5 rounded-2xl shadow-md flex items-center gap-3 dark:text-white">
             <UIcon name="i-lucide-venus-and-mars" class="size-5" mode="svg" />

@@ -38,11 +38,6 @@ onMounted(async()=>{
         <div class="w-full p-2 rounded-2xl bg-white dark:bg-gray-800 shadow-md">
             <AsyncTableComp v-if="data?.length !== undefined && data?.length > 0" :data="data" :column-config="[
                 {
-                    accessorKey: 'id',
-                    header: '#',
-                    cell: ({ row }) => `#${row.getValue('id')}`,
-                },
-                {
                     accessorKey: 'activity',
                     header: 'Activity',
                     cell: ({ row }) => `${row.getValue('activity')}`,
