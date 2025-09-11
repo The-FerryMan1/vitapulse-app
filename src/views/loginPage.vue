@@ -76,9 +76,9 @@ const Submit = async(event:FormSubmitEvent<Schema>)=>{
 <template>
     <defaultLayout>
         <div
-            class="flex justify-between items-center h-full w-full sm:bg-linear-90 bg-linear-65 from-white dark:from-slate-900 via-white dark:via-slate-900 to-red-600 transition-colors duration-300">
+            class="flex justify-between items-center h-full w-full lg:bg-linear-90 bg-linear-65 from-white dark:from-slate-900 via-white dark:via-slate-900 to-red-600 transition-colors duration-300">
             <UForm :schema="schema" :state="state" @submit="Submit"
-                class="sm:w-2/5 w-full sm:mx-30 justify-self-center flex flex-col justify-center items-center space-y-6 p-10 bg-white dark:bg-slate-800 rounded-[8px] dark:border dark:border-gray-700 transition-all duration-300">
+                class="lg:w-2/5 w-full lg:mx-30 justify-self-center flex flex-col justify-center items-center space-y-6 p-10 bg-white dark:bg-slate-800 rounded-[8px] dark:border dark:border-gray-700 transition-all duration-300">
                 <div class="self-start text-3xl font-semibold gap-2 flex flex-col text-gray-900 dark:text-white">
                     <h1>Login.</h1>
                     <small class="text-lg font-light text-gray-600 dark:text-gray-300">Welcome back!</small>
@@ -121,7 +121,7 @@ const Submit = async(event:FormSubmitEvent<Schema>)=>{
             </UForm>
 
             <!-- Right-side image and overlay content -->
-            <div class="h-full relative sm:flex hidden">
+            <div class="h-full relative lg:flex hidden">
                 <img src="../assets/imgs/loginWallpaper.png" alt="Login wallpaper"
                     class="h-[90%] w-full z-10 object-contain rounded-md bg-transparent aspect-square" />
                 <div class="absolute w-full h-full top-0 left-0 flex flex-col justify-start items-center p-5

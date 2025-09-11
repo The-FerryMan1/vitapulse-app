@@ -49,10 +49,10 @@ provide('notif', notif)
     </header>
 
     <!-- Main content with side navigation -->
-    <main id="main" class="sm:flex-row flex flex-col justify-between h-[calc(100dvh-120px)] overflow-hidden">
+    <main id="main" class="lg:flex-row flex flex-col justify-between h-[calc(100dvh-120px)] overflow-hidden">
         <!-- Sidebar Section -->
         <div
-            class="flex sm:flex-row flex-col sm:w-[250px] w-full px-3 py-4 bg-white dark:bg-gray-800 transition-colors duration-300">
+            class="flex lg:flex-row flex-col lg:w-[250px] w-full px-3 py-4 bg-white dark:bg-gray-800 transition-colors duration-300">
             <SideNav />
         </div>
 

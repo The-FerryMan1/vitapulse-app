@@ -133,17 +133,17 @@ const adminItems = ref<NavigationMenuItem[][]>([
 <template>
 
 
-    <UCollapsible class="sm:hidden flex flex-col gap-2 sticky top-0 w-full shadow-sm bg-white dark:bg-gray-900">
+    <UCollapsible class="lg:hidden flex flex-col gap-2 sticky top-0 w-full shadow-sm bg-white dark:bg-gray-900">
         <UButton label="On this page" class="bg-white dark:bg-gray-900 shadow-sm" color="neutral" variant="subtle"
             trailing-icon="i-lucide-chevron-down" block />
 
         <template #content>
             <UNavigationMenu v-if="auth" orientation="vertical"
                 :items="auth.role === 'general' ? userItems : adminItems"
-                class="data-[orientation=vertical]:w-full sm:hidden flex py-4 bg-white dark:bg-gray-900" />
+                class="data-[orientation=vertical]:w-full lg:hidden flex py-4 bg-white dark:bg-gray-900" />
         </template>
     </UCollapsible>
 
     <UNavigationMenu v-if="auth" orientation="vertical" :items="auth.role === 'general' ? userItems : adminItems"
-        class="data-[orientation=vertical]:w-52 sm:flex hidden" />
+        class="data-[orientation=vertical]:w-full lg:flex hidden" />
 </template>

@@ -130,7 +130,7 @@ const reconnect = () => {
 
             <h1 class="text-3xl my-10 font-bold self-start">Real-time monitor</h1>
             <div v-if="data?.diastolic && data?.systolic && data?.pulseRate && user?.birthday"
-                class="my-5 flex sm:flex-nowrap flex-wrap w-full gap-4">
+                class="my-5 flex lg:flex-nowrap flex-wrap w-full gap-4">
                 <AsyncCardComp
                     :bpAndPulse="{ systolic: data?.systolic, diastolic: data?.diastolic, age: Number(getTheAge(String(user?.birthday))), pulse: data?.pulseRate }" />
                 <AsyncPulseRateCard
