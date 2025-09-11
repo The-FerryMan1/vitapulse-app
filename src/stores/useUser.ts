@@ -18,6 +18,7 @@ export const useUserStore = defineStore('user',()=>{
             const { data } = await useAxios.get('/auth/user', {
                 withCredentials: true
             })
+            console.log(data)
             return data;
         } catch (error) {
             console.error('User not authenticated', error);

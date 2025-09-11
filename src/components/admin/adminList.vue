@@ -25,7 +25,7 @@ const pagination = ref({
 
 const open = ref(false)
 const deleteOpen = ref(false)
-const selectedUser = ref<{ id: number, deviceId: string, name: string, email: string, birthday: number, sex: string, contact: string, role:string } | null>(null);
+const selectedUser = ref<{ id: number, name: string, email: string, birthday: number, sex: string, contact: string, role:string } | null>(null);
 const selectedUserId = ref<number | null>(null);
 const data = computed(() => {
     return props?.userList
@@ -120,7 +120,6 @@ function getRowItems(row: Row<User>) {
             async onSelect() {
                 selectedUser.value = {
                     id: row.original.id,
-                    deviceId: row.original.deviceId,
                     name: row.original.name,
                     email: row.original.email,
                     birthday: row.original.birthday,

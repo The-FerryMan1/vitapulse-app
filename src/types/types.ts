@@ -1,6 +1,5 @@
 export interface User {
     id: number;
-    deviceId: string;
     role: string;
     name: string;
     email: string
