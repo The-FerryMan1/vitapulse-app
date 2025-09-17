@@ -62,7 +62,7 @@ const Submit = async(event:FormSubmitEvent<Schema>)=>{
        
     } catch (error) {
         errorMess.value = (error as errorType)?.response?.data?.message
-        toast.add({ title: 'Warining', description: 'Invalid credentials', color: 'warning' })
+        toast.add({ title: 'Warning', description: 'Invalid credentials', color: 'warning' })
         console.log(error)
     }finally{
         isLoading.value = false
