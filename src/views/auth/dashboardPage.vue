@@ -8,6 +8,7 @@ import { useBpStore } from '@/stores/UseBp';
 import { getBpAndPulseByAge } from '@/utils/BpByAge';
 import type { User, bpPulse } from '@/types/types';
 import { getTheAge } from '@/utils/getTheAge';
+import { useToast } from '@nuxt/ui/runtime/composables/useToast.js';
 
 
 const toast = useToast();
@@ -56,8 +57,8 @@ const data = ref<bpPulse | null>(null)
 
 let ws: WebSocket | null = null;
 const setUpWebSocketConnection = () => {
-    ws = new WebSocket('wss://vitapulse-api.onrender.com/api/auth/ws/bp');
-    // ws = new WebSocket('ws://localhost:8888/api/auth/ws/bp');
+    // ws = new WebSocket('wss://vitapulse-api.onrender.com/api/auth/ws/bp');
+    ws = new WebSocket('ws://localhost:8888/api/auth/ws/bp');
     
     ws.onopen = (event) => {
         console.log('WebSocket connection established');
