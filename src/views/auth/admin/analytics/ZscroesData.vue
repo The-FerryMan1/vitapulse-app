@@ -70,6 +70,7 @@ watch(selectedUser, () => {
 })
 
 onMounted(async () => {
+     router.replace({ query: { filter: 'daily' } })
     if (dateFilter.value !== 'custom' && selectedUser.value !== 0) {
         // data.value = await getBp(route?.query?.filter?.toString());
 

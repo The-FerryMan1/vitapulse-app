@@ -5,7 +5,7 @@ import userLayout from '@/layouts/userLayout.vue';
 
 <template>  
     <userLayout>
-        <div>
+        <div class="p-5">
             <Guidelines />
         </div>
     </userLayout>

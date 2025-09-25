@@ -111,6 +111,19 @@ function getRowItems(row: Row<User>) {
         {
             type: 'label',
             label: 'Export Readings',
+            
+        },
+        {
+            label: 'All',
+            icon: 'i-lucide-arrow-down-to-line',
+            async onSelect() {
+                const isSuccess = await exportCsv('all', row.original.id)
+                if (isSuccess) {
+                    toast.add({ title: 'Download Completed', description: 'Weekly Data CSV format', color: 'success' })
+                } else {
+                    toast.add({ title: 'Download failed', description: 'Weekly Data CSV format - No data to download', color: 'warning' })
+                }
+            }
         },
         {
             label: 'Weekly',
@@ -120,7 +133,7 @@ function getRowItems(row: Row<User>) {
                 if (isSuccess) {
                     toast.add({ title: 'Download Completed', description: 'Weekly Data CSV format', color: 'success' })
                 } else {
-                    toast.add({ title: 'Download failed', description: 'Weekly Data CSV format', color: 'warning' })
+                    toast.add({ title: 'Download failed', description: 'Weekly Data CSV format - No data to download', color: 'warning' })
                 }
             }
         },
@@ -132,7 +145,7 @@ function getRowItems(row: Row<User>) {
                 if (isSuccess) {
                     toast.add({ title: 'Download Completed', description: 'Monthly Data CSV format', color: 'success' })
                 } else {
-                    toast.add({ title: 'Download failed', description: 'Monthly Data CSV format', color: 'warning' })
+                    toast.add({ title: 'Download failed', description: 'Monthly Data CSV format - No data to download', color: 'warning' })
                 }
             }
         },
@@ -151,7 +164,7 @@ function getRowItems(row: Row<User>) {
                 if (isSuccess){
                     toast.add({title:'Download Completed', description: 'Weekly Summary report', color:'success'})
                 }else{
-                    toast.add({ title: 'Download failed', description: 'Weekly Summary report', color: 'warning' })
+                    toast.add({ title: 'Download failed', description: 'Weekly Summary report - No data to download', color: 'warning' })
                 }
             }
         },
@@ -163,7 +176,7 @@ function getRowItems(row: Row<User>) {
                 if (isSuccess) {
                     toast.add({ title: 'Download Completed', description: 'Weekly Summary report', color: 'success' })
                 } else {
-                    toast.add({ title: 'Download failed', description: 'Weekly Summary report', color: 'warning' })
+                    toast.add({ title: 'Download failed', description: 'Weekly Summary report - No data to download', color: 'warning' })
                 }
             }
         },

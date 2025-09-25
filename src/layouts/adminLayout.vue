@@ -47,16 +47,16 @@ provide('notif', notif)
     </header>
 
     <!-- Main content with side navigation -->
-    <main id="main" class="sm:flex-row flex flex-col justify-between h-[calc(100dvh-120px)] overflow-hidden">
+    <main id="main" class="lg:flex-row flex flex-col justify-between h-[calc(100dvh-120px)] overflow-hidden">
         <!-- Sidebar Section -->
-        <div
-            class="flex sm:flex-row flex-col sm:w-[250px] w-full px-3 py-4 bg-white dark:bg-gray-800 transition-colors duration-300">
+       <div
+            class="flex lg:flex-row flex-col lg:w-[250px] w-full px-3 py-4 bg-white dark:bg-gray-800 transition-colors duration-300">
             <SideNav />
         </div>
 
         <!-- Main Content Section -->
         <div
-            class="grow overflow-y-auto h-[calc(100dvh-120px)] bg-gray-50 dark:bg-gray-900 transition-colors duration-300">
+            class="grow overflow-y-auto h-[calc(100dvh-120px)] bg-gray-50 dark:bg-gray-900 transition-colors duration-300 p-5 ">
             <slot />
         </div>
     </main>

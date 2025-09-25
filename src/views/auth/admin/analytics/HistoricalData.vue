@@ -45,21 +45,20 @@ const AsyncFilterComp = defineAsyncComponent({
 
 
 
-const dateFilter = ref<string | undefined>(route?.query?.filter?.toString() || 'daily');
+const dateFilter = ref<string | undefined>('daily');
 
-const date = new Date();
-const customTo = ref<Date>(date);
-const customFrom = ref<Date>(date);
+const date = new Date(Date.now());
+const customTo = ref<string>(date.toISOString());
+const customFrom = ref<string>(date.toISOString());
+
 
 watch(dateFilter, async () => {
     if (dateFilter?.value !== 'custom') {
         router.replace({ query: { filter: dateFilter.value } })
+        console.log(route.query.filter)
 
     }
 })
-
-
-
 
 const users = ref<User[]|null>(null);
 const data = ref<TableDate[] | null>(null);
@@ -70,6 +69,7 @@ watch(selectedUser, ()=>{
 })
 
 onMounted(async () => {
+      router.replace({ query: { filter: 'daily' } })
     if (dateFilter.value !== 'custom' && selectedUser.value !== 0) {
         // data.value = await getBp(route?.query?.filter?.toString());
 
@@ -104,11 +104,13 @@ const submitFilter = async () => {
     if (dateFilter.value === 'custom') {
         if (customFrom.value && customTo.value) {
             router.replace({ query: { filter: 'custom', from: new Date(customFrom.value).toISOString(), to: new Date(customTo.value).toISOString() } });
-            await getBpCustom(customFrom.value.toISOString(), customTo.value.toISOString());
+            await getBpCustom(customFrom.value, customTo.value);
             return
         }
     }
 };
+
+
 </script>
 
 <template>

@@ -5,8 +5,21 @@ const { activiyLogs } = useUserStore();
 export const exportCsv = async (filter:string, userid: number | string, ) => {
 
     try {
-        const { data: res } = await useAxios.get(`/auth/bp/summary/${userid}?filter=${filter}`) 
-        const data:TableDate[] = res
+
+        let readData;
+
+
+        if(filter !== 'all'){
+             const { data: res } = await useAxios.get(`/auth/bp/summary/${userid}?filter=${filter}`)
+            
+            readData = res
+        }else{
+            const { data: res } = await useAxios.get(`/auth/bp/all/${userid}`)
+            
+            readData = res
+        }
+        
+        const data:TableDate[] = readData
         const headers = Object.keys(data[0]).join(",") + "\n";
 
         const rows = data.map(row =>
