@@ -74,7 +74,7 @@ const Submit = async (event: FormSubmitEvent<Schema>) => {
 
 <template>
 
-    <UForm :schema="schema" :state="state" @submit="Submit" class="w-full flex flex-col gap-3 z-50">
+    <UForm :schema="schema" :state="state" @submit.prevent="Submit" class="w-full flex flex-col gap-3 z-50">
         <errorMessage v-if="errorMess" :message="errorMess" />
 
         <FormGroupComp label="Name" name="name" required type="text" icon="i-lucide-circle-user"
