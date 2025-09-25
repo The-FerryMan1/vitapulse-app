@@ -76,7 +76,7 @@ watch(pulse, () => {
                 </h1>
             </div>
             <div>
-                <img src="/src/assets/imgs/heart.png" class="w-[120px] animate-pulse object-contain" alt="">
+                <img src="/src/assets/imgs/heart.png" class="sm:w-[120px] w-[90px] lg:w-[100px] animate-pulse object-contain" alt="">
             </div>
         </div>
         <template #footer>

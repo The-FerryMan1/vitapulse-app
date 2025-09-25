@@ -45,14 +45,14 @@ const isOpen = ref<boolean>(false)
 
         <div class="flex items-start justify-between gap-2 py-4">
             <div class="text-nowrap w-[200px]">
-                <h1 class="text-slate-700 text-6xl font-semibold">{{ bpAndPulse.systolic }}
+                <h1 class="text-slate-700 sm:text-6xl text-3xl lg:text-4xl font-semibold">{{ bpAndPulse.systolic }}
                     <span>/</span>
                     <span class="text-slate-700 text-3xl">{{ bpAndPulse.diastolic }}</span>
                     <small class="font-semibold sm:text-3xl text-xl text-slate-400"> mmHg</small>
                 </h1>
             </div>
             <div>
-                <img src="/src/assets/imgs/blood.png" class="w-[120px] animate-pulse object-contain" alt="">
+                <img src="/src/assets/imgs/blood.png" class="sm:w-[120px] w-[90px] lg:w-[100px] animate-pulse object-contain" alt="">
             </div>
 
         </div>

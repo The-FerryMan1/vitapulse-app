@@ -132,7 +132,7 @@ const submitFilter = async () => {
         <h1 class="text-2xl mx-2 my-10 font-bold self-start">Historical readings <UBadge> 
             <ULink class="text-white" :to="{name: 'guidelines'}">?</ULink>
         </UBadge></h1>
-        <div class="flex gap-4 mt-3 px-3 items-end justify-start w-full">
+        <div class="flex gap-4 mt-3 px-3 flex-wrap items-end justify-start w-full">
             <ExportToCsv class="self-start me-auto" v-if="data?.length !== undefined && data?.length > 0 && auth"
                 :Data="data" :name="auth?.id" />
             <AsyncFilterComp v-model:filter="dateFilter" v-model:custom-from="customFrom" v-model:custom-to="customTo"

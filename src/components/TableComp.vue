@@ -79,7 +79,7 @@ const tableData = computed(()=>{
 
 <template>
     <div>
-        <div class="flex px-4 py-3.5  w-1/2 ">
+        <div class="flex px-4 py-3.5  w-full ">
             <UInput icon="i-lucide-search" v-model="globalFilter" class="w-full" placeholder="search..." />
         </div>
     </div>
