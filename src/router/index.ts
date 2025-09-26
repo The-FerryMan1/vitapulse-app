@@ -74,7 +74,7 @@ const routes: RouteRecordRaw[] = [
     meta: { title: 'Guidelines', requiresAuth: true, requiresVerified: true }
   },
   {
-    path: '/activiy-user',
+    path: '/activity-user',
     name: 'activiy-user',
     component: () => import('@/views/auth/activityLogs.vue'),
     meta: { title: 'Activity logs', requiresAuth: true, requiresVerified: true }

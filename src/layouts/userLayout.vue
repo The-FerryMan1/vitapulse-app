@@ -58,7 +58,7 @@ provide('notif', notif)
 
         <!-- Main Content Section -->
         <div
-            class="grow overflow-y-auto h-[calc(100dvh-120px)] bg-gray-50 dark:bg-gray-900 transition-colors duration-300">
+            class="grow overflow-y-auto h-[calc(100dvh-120px)] bg-gray-50 dark:bg-gray-900 transition-colors duration-300 p-5">
             <slot />
         </div>
     </main>
