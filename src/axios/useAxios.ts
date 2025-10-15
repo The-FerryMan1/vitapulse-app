@@ -1,7 +1,7 @@
 import axios from "axios";
 
 export const useAxios = axios.create({
-  baseURL: import.meta.env.VITE_DOMAIN_NAMe,
+  baseURL: import.meta.env.VITE_DOMAIN_NAME,
 
   // productions
   // baseURL: 'https://vitapulse-api.onrender.com/api/',
