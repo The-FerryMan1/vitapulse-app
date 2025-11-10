@@ -1,16 +1,19 @@
 <script setup lang="ts">
-import { computed, ref } from 'vue';
+import { computed, ref, h, toRaw, resolveComponent } from 'vue';
 import type { TableColumn } from '@nuxt/ui'
 import { getPaginationRowModel } from '@tanstack/vue-table'
 import { useTemplateRef } from 'vue';
 import Indicator from './Indicator.vue';
 import type {TableDate} from '@/types/types';
+import {useAxios} from '@/axios/useAxios.ts';
+
+const UBadge = resolveComponent('UBadge');
+const UCheckbox = resolveComponent('UCheckbox');
 const props = defineProps<{
     Data: TableDate[]
 }>();
 
 const table = useTemplateRef('table');
-
 const pagination = ref({
     pageIndex: 0,
     pageSize: 5
@@ -20,6 +23,24 @@ const globalFilter = ref('')
 
 const columns = computed(()=>{
     const columns: TableColumn<TableDate>[] = [
+         {
+    id: 'select',
+    header: ({ table }) =>
+      h(UCheckbox, {
+        modelValue: table.getIsSomePageRowsSelected()
+          ? 'indeterminate'
+          : table.getIsAllPageRowsSelected(),
+        'onUpdate:modelValue': (value: boolean | 'indeterminate') =>
+          table.toggleAllPageRowsSelected(!!value),
+        'aria-label': 'Select all'
+      }),
+    cell: ({ row }) =>
+      h(UCheckbox, {
+        modelValue: row.getIsSelected(),
+        'onUpdate:modelValue': (value: boolean | 'indeterminate') => row.toggleSelected(!!value),
+        'aria-label': 'Select row'
+      })
+  },
         {
             accessorKey: 'systolic',
             header: 'Systolic',
@@ -72,9 +93,28 @@ const columns = computed(()=>{
 
 
 
+const deleteSelectedRow = async()=>{
+
+    let data = [] as {id: number}[];
+
+    table?.value?.tableApi?.getFilteredSelectedRowModel().rows.forEach(element => {
+       data.push({id:toRaw(element.original.id)})
+    });
+
+    try {
+        await  useAxios.post('/auth/bp/delete', data)
+    } catch (error) {
+        console.error(error)
+    }
+
+}
+
 const tableData = computed(()=>{
-    return props?.Data;
+    return props?.Data
 })
+
+
+
 </script>
 
 <template>
@@ -84,9 +124,27 @@ const tableData = computed(()=>{
         </div>
     </div>
     <Indicator />
-    <UTable sticky v-model:pagination="pagination" v-model:global-filter="globalFilter" :pagination-options="{
+    
+
+       
+        <form @submit.prevent="deleteSelectedRow" class="flex justify-end items-center" v-if="table?.tableApi?.getFilteredSelectedRowModel().rows?.length > 0">
+            
+            <button class="p-2 bg-red-500 text-sm my-1 rounded-md">
+                Delete selected row
+            </button>
+        </form>
+
+        
+     <div class="px-4 py-3.5 border-t border-accented text-sm text-muted">
+        {{ table?.tableApi?.getFilteredSelectedRowModel().rows.length || 0 }} of
+        {{ table?.tableApi?.getFilteredRowModel().rows.length || 0 }} row(s) selected.
+      </div>
+    <UTable  sticky v-model:pagination="pagination" v-model:global-filter="globalFilter" :pagination-options="{
         getPaginationRowModel: getPaginationRowModel()
     }" ref="table" :data="Data" :empty="'No data found'" :columns="columns" class="w-full">
+        
+        
+        
         <template #bpStatus-cell="{ row }">
             <div class="flex gap-3 items-center">
                 <p>{{ row.original.bpStatus }}</p>
@@ -105,6 +163,8 @@ const tableData = computed(()=>{
 
             </div>
         </template>
+
+
         <template #pulseStatus-cell="{ row }">
             <div class="flex gap-3 items-center">
                 <p>{{ row.original.pulseStatus }}</p>
@@ -120,6 +180,7 @@ const tableData = computed(()=>{
 
             </div>
         </template>
+        
     </UTable>
     <div class="flex justify-end items-center border-t border-(--ui-border) pt-4">
 
