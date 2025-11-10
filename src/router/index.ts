@@ -156,11 +156,6 @@ router.afterEach((to) => {
 
 router.beforeEach(async (to) => {
   const Auth = useUserStore()
-
-  if (Auth.auth === null) {
-    await Auth.verify();
-  }
-
   const isAuthenticated = Auth.auth;
   const isVerified = Auth.auth?.isVerified;
   const isAdmin = Auth.auth?.role === 'admin';
