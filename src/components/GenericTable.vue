@@ -36,6 +36,7 @@ const deleteSelectedRow = async()=>{
     });
 
     try {
+        console.log("post")
         await  useAxios.post('/auth/admin/logs/delete', data)
 
         router.back()

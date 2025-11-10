@@ -20,7 +20,7 @@ onMounted(async()=>{
 <template>
     <adminLayout>
         <h1 class="text-2xl mx-2 my-10 font-bold self-start">Users' activity logs</h1>
-        <ExportToCsv v-if="data" :Data="data" :name="'burat'"/>
+        <ExportToCsv v-if="data" :Data="data" :name="'users'"/>
          <GenericTable v-if="data" :data="data" :column-config="[
           {
           id: 'select',
