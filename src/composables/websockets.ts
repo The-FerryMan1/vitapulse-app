@@ -6,10 +6,10 @@ export const setUpWebSocketConnection = (url: string) => {
   let ws: WebSocket
   if(app_name.includes("https")){
     domain = app_name.replace("https://", "");
-    ws = new WebSocket(`wss://${domain}auth/ws/${url}`);
+    ws = new WebSocket(`wss://${domain}/auth/ws/${url}`);
   }else{
     domain = app_name.replace("http://", "")
-    ws = new WebSocket(`ws://${domain}auth/ws/${url}`);
+    ws = new WebSocket(`ws://${domain}/auth/ws/${url}`);
   }
 
   
