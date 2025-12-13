@@ -49,20 +49,20 @@ const columns = computed(() => {
                 return h('span', { class: getZScoreClass(row.getValue('pulseZ')) }, row.getValue('pulseZ'));
             }
         },
-            // {
-            //     accessorKey: 'pulsePressureZ',
-            //     header: 'Pulse pressure z-score',
-            //     cell: ({ row }) => {
-            //         return h('span', { class: getZScoreClass(row.getValue('pulsePressureZ')) }, row.getValue('pulsePressureZ'));
-            //     }
-            // },
-            // {
-            //     accessorKey: 'mapZ',
-            //     header: 'MAP z-score',
-            //     cell: ({ row }) => {
-            //         return h('span', { class: getZScoreClass(row.getValue('mapZ')) }, row.getValue('mapZ'));
-            //     }
-            // },
+        // {
+        //     accessorKey: 'pulsePressureZ',
+        //     header: 'Pulse pressure z-score',
+        //     cell: ({ row }) => {
+        //         return h('span', { class: getZScoreClass(row.getValue('pulsePressureZ')) }, row.getValue('pulsePressureZ'));
+        //     }
+        // },
+        // {
+        //     accessorKey: 'mapZ',
+        //     header: 'MAP z-score',
+        //     cell: ({ row }) => {
+        //         return h('span', { class: getZScoreClass(row.getValue('mapZ')) }, row.getValue('mapZ'));
+        //     }
+        // },
         {
             accessorKey: 'timestamp',
             header: 'Timestamp',
@@ -72,7 +72,8 @@ const columns = computed(() => {
                     month: "short",
                     hour: '2-digit',
                     minute: '2-digit',
-                    hour12: true
+                    hour12: true,
+                    timeZone: "UTC"
                 })
             }
         },
