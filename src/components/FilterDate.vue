@@ -23,6 +23,7 @@ const customTo = defineModel<any>('customTo');
         <!-- Filter Dropdown -->
         <USelect
             class="shadow-xl text-black font-semibold z-10 bg-white dark:bg-gray-700 dark:text-white border border-gray-300 dark:border-gray-600"
-            icon="i-lucide-funnel" v-model="filter" :items="['hourly', 'daily', 'weekly', 'monthly', 'custom']" />
+            icon="i-lucide-funnel" v-model="filter"
+            :items="['all', 'hourly', 'daily', 'weekly', 'monthly', 'custom']" />
     </div>
 </template>

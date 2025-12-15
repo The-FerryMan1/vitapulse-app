@@ -16,7 +16,7 @@ const props = defineProps<{
 const table = useTemplateRef('table');
 const pagination = ref({
     pageIndex: 0,
-    pageSize: 5
+    pageSize: 10
 });
 
 const globalFilter = ref('')

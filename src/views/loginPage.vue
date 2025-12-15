@@ -2,7 +2,7 @@
 import userLayout from '@/layouts/userLayout.vue';
 import FormGroupComp from '@/components/FormGroupComp.vue';
 import errorMessage from '@/components/errorMessage.vue';
-import {useAxios} from '@/axios/useAxios.ts';
+import { useAxios } from '@/axios/useAxios.ts';
 import defaultLayout from '@/layouts/defaultLayout.vue'
 import * as z from 'zod';
 import type { FormSubmitEvent } from '@nuxt/ui';
@@ -10,7 +10,7 @@ import { reactive, ref, watch } from 'vue';
 import { useUserStore } from '@/stores/useUser';
 import { useRouter } from 'vue-router';
 
-const {verify} = useUserStore();
+const { verify } = useUserStore();
 const router = useRouter();
 
 const schema = z.object({
@@ -18,13 +18,13 @@ const schema = z.object({
     password: z.string().min(8)
 })
 
-interface errorType{
+interface errorType {
     response: {
-        data:{
+        data: {
             message: string
         }
     }
-} 
+}
 
 type Schema = z.infer<typeof schema>
 
@@ -35,41 +35,41 @@ const state = reactive<Partial<Schema>>({
     password: undefined
 })
 
-watch(()=>state.email,  ()=>{
+watch(() => state.email, () => {
     errorMess.value = null
-   
+
 })
 
 const toast = useToast()
 
-const Submit = async(event:FormSubmitEvent<Schema>)=>{
+const Submit = async (event: FormSubmitEvent<Schema>) => {
     try {
         isLoading.value = true
-        
-       const {status} =  await useAxios.post('/login', {email:event.data.email, password:event.data.password}, {
+
+        const { status } = await useAxios.post('/login', { email: event.data.email, password: event.data.password }, {
             headers: {
                 'Content-Type': 'application/json'
             }
         });
-        if(status !== 200) throw new Error('invalid credentials');
+        if (status !== 200) throw new Error('invalid credentials');
         toast.add({ title: 'Success', description: 'Welcome back!', color: 'success' })
-           
+
         await verify();
         router.push({ name: 'dashboard' })
-    
-       
-        return 
-       
+
+
+        return
+
     } catch (error) {
         errorMess.value = (error as errorType)?.response?.data?.message
         toast.add({ title: 'Warning', description: 'Invalid credentials', color: 'warning' })
         console.log(error)
-    }finally{
+    } finally {
         isLoading.value = false
         state.password = undefined
     }
-   
-    
+
+
 }
 </script>
 
@@ -108,11 +108,11 @@ const Submit = async(event:FormSubmitEvent<Schema>)=>{
                 </div>
 
                 <div class="flex justify-between w-full flex-row-reverse">
-                    <ULink href="/register"
+                    <ULink to="/register"
                         class="underline text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 transition-colors duration-200">
                         Create Account?
                     </ULink>
-                    <ULink href="/reset-password"
+                    <ULink to="/reset-password"
                         class="underline text-red-600 dark:text-red-400 hover:text-red-700 dark:hover:text-blue-300 transition-colors duration-200">
                         Forgot password?
                     </ULink>

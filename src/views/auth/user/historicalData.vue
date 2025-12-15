@@ -47,7 +47,7 @@ const AsyncFilterComp = defineAsyncComponent({
 });
 
 const dateFilter = ref<string | undefined>(
-  route?.query?.filter?.toString() || "daily",
+  route?.query?.filter?.toString() || "all",
 );
 
 const date = new Date(Date.now());
@@ -65,7 +65,7 @@ let ws: WebSocket | null = null;
 const webscoketSetup = (filter?: string, from?: string, to?: string) => {
   // ws = new WebSocket(`wss://vitapulse-api.onrender.com/api/auth/ws/historical?filter=${filter??'daily'}${from && to ? `&from=${from}&to=${to}`:''}`)
   ws = setUpWebSocketConnection(
-    `historical?filter=${filter ?? "daily"}${from && to ? `&from=${from}&to=${to}` : ""}`,
+    `historical?filter=${filter ?? "all"}${from && to ? `&from=${from}&to=${to}` : ""}`,
   );
 
   ws.onopen = (event) => {
@@ -73,6 +73,7 @@ const webscoketSetup = (filter?: string, from?: string, to?: string) => {
   };
   ws.onmessage = async (event) => {
     data.value = JSON.parse(event.data);
+    console.log(event.data)
   };
   ws.onclose = () => {
     console.log("Websocket connection has been closed");
@@ -140,39 +141,21 @@ const submitFilter = async () => {
       </UBadge>
     </h1>
     <div class="flex gap-4 mt-3 px-3 flex-wrap items-end justify-start w-full">
-      <ExportToCsv
-        class="self-start me-auto"
-        v-if="data?.length !== undefined && data?.length > 0 && auth"
-        :Data="data"
-        :name="auth?.id"
-      />
-      <AsyncFilterComp
-        v-model:filter="dateFilter"
-        v-model:custom-from="customFrom"
-        v-model:custom-to="customTo"
-        class="self-end"
-      />
-      <UButton
-        class="shadow-xl dark:text-white"
-        label="Apply Filter"
-        @click="submitFilter"
-      />
+      <ExportToCsv class="self-start me-auto" v-if="data?.length !== undefined && data?.length > 0 && auth" :Data="data"
+        :name="auth?.id" />
+      <AsyncFilterComp v-model:filter="dateFilter" v-model:custom-from="customFrom" v-model:custom-to="customTo"
+        class="self-end" />
+      <UButton class="shadow-xl dark:text-white" label="Apply Filter" @click="submitFilter" />
     </div>
     <div class="w-full p-2">
-      <AsyncTableChart
-        v-if="data?.length !== undefined && data?.length > 0"
-        :Data="data"
-      />
+      <AsyncTableChart v-if="data?.length !== undefined && data?.length > 0" :Data="data" />
       <div v-else>
         <p class="text-center">No data found</p>
       </div>
     </div>
 
     <div class="w-full p-2">
-      <AsyncTableComp
-        v-if="data?.length !== undefined && data?.length > 0"
-        :Data="data"
-      />
+      <AsyncTableComp v-if="data?.length !== undefined && data?.length > 0" :Data="data" />
     </div>
   </section>
 </template>
