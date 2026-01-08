@@ -11,12 +11,9 @@ const props = defineProps<{
 const exportCsv = async () => {
     const headers = Object.keys(props?.data[0]).join(",") + "\n";
 
-    console.log(headers)
     const rows = props.data.map(row =>
         Object.values(row).join(",")
     ).join("\n");
-
-    console.log(rows)
 
     const csvContent = headers + rows;
 

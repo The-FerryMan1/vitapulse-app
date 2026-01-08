@@ -13,17 +13,6 @@ const AsyncChart = defineAsyncComponent({
 })
 
 const ab:any = inject('data');
-
-// onMounted(async () => {
-//     try {
-//         const { data: abnormalities } = await useAxios.get('/auth/admin/readings/abnormalities/count');
-//         console.log(abnormalities)
-//         ab.value = abnormalities
-//     } catch (error) {
-//         console.log(error)
-//     }
-// })
-
 </script>
 
 

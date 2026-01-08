@@ -55,7 +55,6 @@ const customFrom = ref<string>(date.toISOString());
 watch(dateFilter, async () => {
     if (dateFilter?.value !== 'custom') {
         router.replace({ query: { filter: dateFilter.value } })
-        console.log(route.query.filter)
 
     }
 })

@@ -73,7 +73,6 @@ const webscoketSetup = (filter?: string, from?: string, to?: string) => {
   };
   ws.onmessage = async (event) => {
     data.value = JSON.parse(event.data);
-    console.log(event.data)
   };
   ws.onclose = () => {
     console.log("Websocket connection has been closed");

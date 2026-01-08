@@ -35,7 +35,7 @@ onMounted(async()=>{
             class="px-2 mt-10" />
 
         <!-- Table Section -->
-        <div class="w-full p-2 rounded-2xl bg-white dark:bg-gray-800 shadow-md">
+        <div class="w-full p-2 rounded-2xl bg-white dark:bg-gray-800 shadow-md -z-10">
             <AsyncTableComp v-if="data?.length !== undefined && data?.length > 0" :data="data" :column-config="[
                 {
                     accessorKey: 'activity',
@@ -47,7 +47,7 @@ onMounted(async()=>{
                     header: 'Timestamp',
                     cell: ({ row }) => new Date(row.getValue('timestamp')).toLocaleString(),
                 },
-            ]" class="dark:text-white dark:border-gray-700" />
+            ]" class="dark:text-white dark:border-gray-700 -z-30" />
         </div>
     </userLayout>
 </template>

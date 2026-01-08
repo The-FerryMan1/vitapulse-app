@@ -134,7 +134,6 @@ const reconnect = () => {
 <template>
   <userLayout>
     <UContainer class="py-4 px-2 w-full mt-4">
-      {{ console.log(user) }}
       <div v-if="user">
         <AsyncInforList :auth="user" />
       </div>

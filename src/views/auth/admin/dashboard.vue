@@ -67,12 +67,8 @@ const webscoketSetup = (filter?: string) => {
 onMounted(async () => {
   try {
     webscoketSetup();
-    // const { data } = await useAxios.get('/auth/ws/dashboard');
-    // console.log(data)
-    // dashData.value = data
   } catch (error) {
-    // dashData.value = null
-    // console.log(error)
+
   }
 });
 

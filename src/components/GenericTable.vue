@@ -36,7 +36,6 @@ const deleteSelectedRow = async()=>{
     });
 
     try {
-        console.log("post")
         await  useAxios.post('/auth/admin/logs/delete', data)
 
         router.back()
@@ -60,7 +59,7 @@ const tableData = computed(() => {
 </script>
 
 <template>
-    <div>
+    <div class="">
         <!-- Search Input -->
         <div class="flex py-3.5 -z-10">
             <UInput icon="i-lucide-search" v-model="globalFilter"
@@ -82,7 +81,7 @@ const tableData = computed(() => {
         <UTable sticky v-model:pagination="pagination" v-model:global-filter="globalFilter" :pagination-options="{
             getPaginationRowModel: getPaginationRowModel()
         }" ref="table" :data="tableData" :empty="'No data found'" :columns="columns"
-            class="w-full bg-white dark:bg-gray-800 dark:text-white dark:border-gray-700 rounded-t-md shadow-md" />
+            class="w-full bg-white dark:bg-gray-800 dark:text-white dark:border-gray-700 rounded-t-md shadow-md -z-0" />
 
         <!-- Pagination Section with Dark Mode Support -->
         <div class="flex justify-end items-center border-t dark:border-gray-700 pt-4">
