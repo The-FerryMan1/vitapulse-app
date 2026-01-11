@@ -1,4 +1,7 @@
 <script setup lang="ts">
+import { watch } from 'fs';
+import { computed } from 'vue';
+
 
 const filter = defineModel<string>('filter');
 const customFrom = defineModel<string>('customFrom');
@@ -6,6 +9,16 @@ const customTo = defineModel<string>('customTo');
 
 // Get today's date in YYYY-MM-DD format for max date constraint
 const today = new Date().toISOString().split('T')[0];
+
+const filterprefix = ['all', 'hourly', 'daily', 'weekly', 'monthly', 'custom'];
+
+const filterFIlter = computed(() => {
+    if (filterprefix.includes(filter.value)) {
+        return filter.value;
+    }
+    return 'all';
+})
+
 
 </script>
 

@@ -26,11 +26,7 @@ useAxios.interceptors.response.use(
           return useAxios(error.config);
         }
       } catch (refreshError) {
-        refresh = false;
-        // Redirect to login on refresh failure
-        if (typeof window !== "undefined") {
-          window.location.href = "/login";
-        }
+      
         return Promise.reject(refreshError);
       }
     }

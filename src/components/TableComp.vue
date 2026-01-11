@@ -129,7 +129,7 @@ const tableData = computed(() => {
 
 
     <form @submit.prevent="deleteSelectedRow" class="flex justify-end items-center"
-        v-if="table?.tableApi?.getFilteredSelectedRowModel().rows?.length > 0">
+        v-if="table?.tableApi?.getFilteredSelectedRowModel().rows?.length && table?.tableApi?.getFilteredSelectedRowModel().rows?.length > 0">
 
         <button class="p-2 bg-red-500 text-sm my-1 rounded-md">
             Delete selected row

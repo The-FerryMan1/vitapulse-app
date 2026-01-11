@@ -24,6 +24,8 @@ const { auth, verify } = useUserStore();
 
 const { getBp, getBpCustom } = useBpStore();
 
+const filterprefix = ['all', 'hourly', 'daily', 'weekly', 'monthly', 'custom'];
+
 const AsyncTableChart = defineAsyncComponent({
   loader: () => import("@/components/TableChart.vue"),
   loadingComponent: SkeletonLoader,
@@ -63,7 +65,6 @@ watch(dateFilter, async () => {
 const data = ref<TableDate[] | null>(null);
 let ws: WebSocket | null = null;
 const webscoketSetup = (filter?: string, from?: string, to?: string) => {
-  // ws = new WebSocket(`wss://vitapulse-api.onrender.com/api/auth/ws/historical?filter=${filter??'daily'}${from && to ? `&from=${from}&to=${to}`:''}`)
   ws = setUpWebSocketConnection(
     `historical?filter=${filter ?? "all"}${from && to ? `&from=${from}&to=${to}` : ""}`,
   );
@@ -89,11 +90,18 @@ const webscoketSetup = (filter?: string, from?: string, to?: string) => {
 };
 
 onMounted(async () => {
-  if (dateFilter.value !== "custom") {
+  if (dateFilter.value !== "custom" && filterprefix.includes(dateFilter?.value)) {
     data.value = await getBp(dateFilter.value);
     router.replace({ query: { filter: dateFilter.value } });
     if (auth) {
       webscoketSetup(dateFilter.value);
+    }
+  }else{
+     data.value = await getBp('all');
+     dateFilter.value = 'all'
+    router.replace({ query: { filter: 'all' } });
+    if (auth) {
+      webscoketSetup('all');
     }
   }
 });
