@@ -3,9 +3,14 @@ import { useAxios } from "./useAxios";
 let refresh = false;
 
 useAxios.interceptors.response.use(
-  (res) => res,
+  (res) => {
+    console.log("Interceptor passed response with status:", res.status);
+    return res;
+  },
   async (error) => {
+    console.log("Interceptor caught an error:", error?.response?.status);
     if (error?.response?.status === 401 && !refresh) {
+      console.log("Access token expired, attempting to refresh...");
       refresh = true;
       try {
         const { status } = await useAxios.post(

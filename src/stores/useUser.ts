@@ -31,7 +31,7 @@ export const useUserStore = defineStore("user", () => {
   const verify = async () => {
     if (isVerified.value) return;
     try {
-      const response = await axios.get(`${import.meta.env.VITE_DOMAIN_NAME}/verify`, {
+      const response = await useAxios.get(`${import.meta.env.VITE_DOMAIN_NAME}/verify`, {
         withCredentials: true,
       });
       if (response.status === 401) throw new Error("unauthorized");
