@@ -5,21 +5,22 @@ import { ref } from 'vue';
 
 const model = defineModel<string | undefined | number>()
 const show = ref(false)     
-const {disable = false} = defineProps<{
+const {disable = false, max} = defineProps<{
     label: string,
     name: string,
     required: boolean,
     type: string,
     icon : string,                  
     placeholder: string,
-    disable?: boolean
+    disable?: boolean,
+    max?: string
 }>()
 </script>
 
 <template>
     <UFormField :label="label" :name="name" :required="required" class=" w-full">
         <UInput :type="type === 'password' ? (show ? 'text' : 'password') : type"
-        :ui="{ trailing: 'pe-1' }" :disabled="disable" :icon="icon" :placeholder="placeholder" v-model="model" size="xl"
+        :ui="{ trailing: 'pe-1' }" :disabled="disable" :icon="icon" :placeholder="placeholder" :max="max" v-model="model" size="xl"
             class="w-full">
         
             <template #trailing>

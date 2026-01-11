@@ -11,6 +11,9 @@ import { useRouter } from 'vue-router';
 
 const router = useRouter();
 
+// Get today's date in YYYY-MM-DD format for max date constraint
+const today = new Date().toISOString().split('T')[0];
+
 const schema = z.object({
     name: z.string().min(6).max(255),
     email: z.string().email(),
@@ -100,7 +103,7 @@ const Submit = async (event: FormSubmitEvent<Schema>) => {
                     placeholder="Enter your email" v-model="state.email" />
 
                 <FormGroupComp label="Birthday" name="birthday" required type="date" icon="i-lucide-calendar"
-                    v-model="state.birthday" placeholder="Birthday" />
+                    v-model="state.birthday" placeholder="Birthday" :max="today" />
 
                 <div class="w-full">
                     <label for="sex" class="text-gray-700 dark:text-gray-300 font-medium mb-1 block">

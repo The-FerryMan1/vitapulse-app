@@ -8,6 +8,9 @@ import { reactive, ref, watch } from 'vue';
 import { useRouter } from 'vue-router';
 const router = useRouter();
 
+// Get today's date in YYYY-MM-DD format for max date constraint
+const today = new Date().toISOString().split('T')[0];
+
 const emit = defineEmits(['change'])
 const props = defineProps<{
     data: { id:number, name:string, email:string, birthday:number, sex:string, contact:string, role:string }
@@ -84,7 +87,7 @@ const Submit = async (event: FormSubmitEvent<Schema>) => {
             placeholder="Enter your valid email" :disable="true" v-model="state.email" />
 
         <FormGroupComp label="Birthday" name="birthday" required type="date" icon="i-lucide-calendar"
-            placeholder="Enter your birthday" v-model="state.birthday" min="1" max="150" />
+            placeholder="Enter your birthday" v-model="state.birthday" :max="today" />
 
         <div class="w-full">
             <label for="" class="text-semibold">Sex <span class="text-red-500">*</span></label>
