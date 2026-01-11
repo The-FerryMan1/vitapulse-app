@@ -51,8 +51,8 @@ const dateFilter = ref<string | undefined>(
 );
 
 const date = new Date(Date.now());
-const customTo = ref<string>(date.toISOString());
-const customFrom = ref<string>(date.toISOString());
+const customTo = ref<string>(date.toISOString().split('T')[0]);
+const customFrom = ref<string>(date.toISOString().split('T')[0]);
 
 watch(dateFilter, async () => {
   if (dateFilter?.value !== "custom") {
@@ -68,17 +68,21 @@ const webscoketSetup = (filter?: string, from?: string, to?: string) => {
     `historical?filter=${filter ?? "all"}${from && to ? `&from=${from}&to=${to}` : ""}`,
   );
 
-  ws.onopen = (event) => {
-    console.log("WebSocket connection established");
+  ws.onopen = () => {
+    // WebSocket connection established
   };
   ws.onmessage = async (event) => {
-    data.value = JSON.parse(event.data);
+    try {
+      data.value = JSON.parse(event.data);
+    } catch (error) {
+      // Handle JSON parse errors silently
+    }
   };
   ws.onclose = () => {
-    console.log("Websocket connection has been closed");
+    // WebSocket connection closed
   };
-  ws.onerror = (error) => {
-    console.log(error);
+  ws.onerror = () => {
+    // WebSocket error - connection will be retried automatically
   };
 
   return ws;
@@ -86,8 +90,11 @@ const webscoketSetup = (filter?: string, from?: string, to?: string) => {
 
 onMounted(async () => {
   if (dateFilter.value !== "custom") {
-    data.value = await getBp(route?.query?.filter?.toString());
-    webscoketSetup(route?.query?.filter?.toString());
+    data.value = await getBp(dateFilter.value);
+    router.replace({ query: { filter: dateFilter.value } });
+    if (auth) {
+      webscoketSetup(dateFilter.value);
+    }
   }
 });
 
@@ -97,33 +104,39 @@ onBeforeUnmount(() => {
 
 const submitFilter = async () => {
   if (dateFilter.value !== "custom") {
-    data.value = await getBp(route?.query?.filter?.toString());
+    data.value = await getBp(dateFilter.value);
+    router.replace({ query: { filter: dateFilter.value } });
 
     if (auth) {
       ws?.close();
-      webscoketSetup(route?.query?.filter?.toString());
+      webscoketSetup(dateFilter.value);
     }
 
     return;
   }
+
   if (dateFilter.value === "custom") {
     if (customFrom.value && customTo.value) {
+      // Convert date strings (YYYY-MM-DD) to ISO strings with time
+      const fromDate = new Date(customFrom.value + 'T00:00:00.000Z');
+      const toDate = new Date(customTo.value + 'T23:59:59.999Z');
+      
+      const fromISO = fromDate.toISOString();
+      const toISO = toDate.toISOString();
+      
       router.replace({
         query: {
           filter: "custom",
-          from: new Date(customFrom.value).toISOString(),
-          to: new Date(customTo.value).toISOString(),
+          from: fromISO,
+          to: toISO,
         },
       });
-      // await getBpCustom(customFrom.value.toISOString(), customTo.value.toISOString());
+
+      data.value = await getBpCustom(fromISO, toISO);
 
       if (auth) {
         ws?.close();
-        webscoketSetup(
-          "custom",
-          String(customFrom.value),
-          String(customTo.value),
-        );
+        webscoketSetup("custom", fromISO, toISO);
       }
       return;
     }

@@ -2,22 +2,38 @@
 import defaultLayout from '@/layouts/defaultLayout.vue';
 import { useUserStore } from '@/stores/useUser';
 import { ref } from 'vue';
+import { useToast } from '@nuxt/ui/runtime/composables/useToast';
+import { getErrorMessage } from '@/utils/errorHandler';
 
-const {auth, sendVerificationCode, getUser} = useUserStore();
+const { auth, sendVerificationCode, getUser } = useUserStore();
+const toast = useToast();
 const isSent = ref(false);
-const verify  = async()=>{
-    let data = null
-    try {
-        data = await getUser()
-    } catch (error) {
-        console.log(error)
-    }
+const isLoading = ref(false);
 
-    if (data){
-        await sendVerificationCode(data?.email)
+const verify = async () => {
+  try {
+    isLoading.value = true;
+    const data = await getUser();
+
+    if (data?.email) {
+      await sendVerificationCode(data.email);
+      isSent.value = true;
+      toast.add({
+        title: 'Success',
+        description: 'Verification code sent to your email',
+        color: 'success'
+      });
     }
-     
-}
+  } catch (error) {
+    toast.add({
+      title: 'Error',
+      description: getErrorMessage(error),
+      color: 'error'
+    });
+  } finally {
+    isLoading.value = false;
+  }
+};
 </script>
 
 <template>

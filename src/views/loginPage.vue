@@ -2,75 +2,78 @@
 import userLayout from '@/layouts/userLayout.vue';
 import FormGroupComp from '@/components/FormGroupComp.vue';
 import errorMessage from '@/components/errorMessage.vue';
-import { useAxios } from '@/axios/useAxios.ts';
 import defaultLayout from '@/layouts/defaultLayout.vue'
 import * as z from 'zod';
 import type { FormSubmitEvent } from '@nuxt/ui';
 import { reactive, ref, watch } from 'vue';
 import { useUserStore } from '@/stores/useUser';
 import { useRouter } from 'vue-router';
+import { useAxios } from '@/axios/useAxios';
+import { getErrorMessage } from '@/utils/errorHandler';
+import { SUCCESS_MESSAGES, ERROR_MESSAGES, HTTP_STATUS } from '@/utils/constants';
 
 const { verify } = useUserStore();
 const router = useRouter();
 
 const schema = z.object({
-    email: z.string().email(),
-    password: z.string().min(8)
-})
+  email: z.string().email(),
+  password: z.string().min(8)
+});
 
-interface errorType {
-    response: {
-        data: {
-            message: string
-        }
-    }
-}
+type Schema = z.infer<typeof schema>;
 
-type Schema = z.infer<typeof schema>
-
-const isLoading = ref<boolean>(false)
+const isLoading = ref<boolean>(false);
 const errorMess = ref<string | null>(null);
 const state = reactive<Partial<Schema>>({
-    email: undefined,
-    password: undefined
-})
+  email: undefined,
+  password: undefined
+});
 
 watch(() => state.email, () => {
-    errorMess.value = null
+  errorMess.value = null;
+});
 
-})
-
-const toast = useToast()
+const toast = useToast();
 
 const Submit = async (event: FormSubmitEvent<Schema>) => {
-    try {
-        isLoading.value = true
+  try {
+    isLoading.value = true;
+    errorMess.value = null;
 
-        const { status } = await useAxios.post('/login', { email: event.data.email, password: event.data.password }, {
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        });
-        if (status !== 200) throw new Error('invalid credentials');
-        toast.add({ title: 'Success', description: 'Welcome back!', color: 'success' })
+    const { status } = await useAxios.post(
+      '/login',
+      { email: event.data.email, password: event.data.password },
+      {
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      }
+    );
 
-        await verify();
-        router.push({ name: 'dashboard' })
-
-
-        return
-
-    } catch (error) {
-        errorMess.value = (error as errorType)?.response?.data?.message
-        toast.add({ title: 'Warning', description: 'Invalid credentials', color: 'warning' })
-        console.log(error)
-    } finally {
-        isLoading.value = false
-        state.password = undefined
+    if (status !== HTTP_STATUS.OK) {
+      throw new Error(ERROR_MESSAGES.INVALID_CREDENTIALS);
     }
 
+    toast.add({
+      title: 'Success',
+      description: SUCCESS_MESSAGES.LOGIN_SUCCESS,
+      color: 'success'
+    });
 
-}
+    await verify();
+    router.push({ name: 'dashboard' });
+  } catch (error) {
+    errorMess.value = getErrorMessage(error);
+    toast.add({
+      title: 'Warning',
+      description: errorMess.value || ERROR_MESSAGES.INVALID_CREDENTIALS,
+      color: 'warning'
+    });
+  } finally {
+    isLoading.value = false;
+    state.password = undefined;
+  }
+};
 </script>
 
 <template>

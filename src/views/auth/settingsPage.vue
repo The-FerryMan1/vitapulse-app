@@ -18,7 +18,7 @@ const schema = z.object({
     email: z.string().email(),
     birthday: z.string().date(),
     sex: z.string(),
-    contact: z.string().max(11),  
+    contact: z.string().min(11).max(11),  
 });
 
 interface errorType {
@@ -110,7 +110,7 @@ const Submit = async (event: FormSubmitEvent<Schema>) => {
 
 
             <FormGroupComp label="Contact" name="contact" required type="text" icon="i-lucide-contact"
-                placeholder="Enter your Age" v-model="state.contact" />
+                placeholder="Enter your contact number" v-model="state.contact" />
 
             <div class="flex items-center self-start gap-3 justify-end w-full">
                 <div class="self-end">

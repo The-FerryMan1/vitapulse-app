@@ -10,7 +10,7 @@
     "type-check": "vue-tsc --build"
   },
   "dependencies": {
-    "@nuxt/ui": "^3.0.2",
+    "@nuxt/ui": "^4.3.0",
     "@vue/devtools-kit": "^8.0.3",
     "axios": "^1.8.4",
     "chart.js": "^4.4.8",

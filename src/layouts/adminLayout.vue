@@ -7,20 +7,23 @@ import { setUpWebSocketConnection as wb } from "@/composables/websockets";
 let ws: WebSocket | null = null;
 const notif = ref<alerts[] | null>(null);
 const setUpWebSocketConnection = () => {
-  // ws = new WebSocket('wss://avitapulse-api.onrender.com/api/auth/ws/notification');
   ws = wb("notification");
-  ws.onopen = (event) => {
-    console.log("WebSocket connection established");
+  ws.onopen = () => {
+    // WebSocket connection established
   };
   ws.onmessage = async (event) => {
-    notif.value = JSON.parse(event.data);
+    try {
+      notif.value = JSON.parse(event.data);
+    } catch (error) {
+      // Handle JSON parse errors silently
+    }
   };
 
   ws.onclose = () => {
-    console.log("Websocket connection has been closed");
+    // WebSocket connection closed
   };
-  ws.onerror = (error) => {
-    console.log(error);
+  ws.onerror = () => {
+    // WebSocket error - connection will be retried automatically
   };
 
   return ws;

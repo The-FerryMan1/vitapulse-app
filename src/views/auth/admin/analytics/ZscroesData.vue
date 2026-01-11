@@ -70,45 +70,70 @@ watch(selectedUser, () => {
 })
 
 onMounted(async () => {
-     router.replace({ query: { filter: 'daily' } })
-    if (dateFilter.value !== 'custom' && selectedUser.value !== 0) {
-        // data.value = await getBp(route?.query?.filter?.toString());
-
-        try {
-            const { data: bpPulsedata } = await useAxios.get(`/auth/admin/readings/z-scores/${selectedUser.value}?filter=${route?.query?.filter?.toString()}`)
-            data.value = bpPulsedata;
-        } catch (error) {
-            console.log(error)
-        }
-
+  router.replace({ query: { filter: 'daily' } });
+  dateFilter.value = 'daily';
+  
+  if (dateFilter.value !== 'custom' && selectedUser.value !== 0) {
+    try {
+      const { data: bpPulsedata } = await useAxios.get(
+        `/auth/admin/readings/z-scores/${selectedUser.value}?filter=${dateFilter.value}`
+      );
+      data.value = bpPulsedata;
+    } catch (error) {
+      data.value = null;
     }
+  }
 
-    if (users.value === null || users.value.length < 0) {
-        try {
-            const { data: user } = await useAxios.get('/auth/admin/users');
-            users.value = user;
-        } catch (error) {
-            console.log(error);
-            users.value = null;
-        }
+  if (users.value === null || users.value.length === 0) {
+    try {
+      const { data: user } = await useAxios.get('/auth/admin/users');
+      users.value = user;
+    } catch (error) {
+      users.value = null;
     }
-
+  }
 });
 
-
 const submitFilter = async () => {
-    if (dateFilter.value !== 'custom') {
-        const { data: bpPulsedata } = await useAxios.get(`/auth/admin/readings/z-scores/${selectedUser.value}?filter=${route?.query?.filter?.toString()}`)
-        data.value = bpPulsedata;
-        return
+  if (selectedUser.value === 0) return;
+
+  if (dateFilter.value !== 'custom') {
+    router.replace({ query: { filter: dateFilter.value } });
+    try {
+      const { data: bpPulsedata } = await useAxios.get(
+        `/auth/admin/readings/z-scores/${selectedUser.value}?filter=${dateFilter.value}`
+      );
+      data.value = bpPulsedata;
+    } catch (error) {
+      data.value = null;
     }
-    if (dateFilter.value === 'custom') {
-        if (customFrom.value && customTo.value) {
-            router.replace({ query: { filter: 'custom', from: new Date(customFrom.value).toISOString(), to: new Date(customTo.value).toISOString() } });
-            await getBpCustom(customFrom.value.toISOString(), customTo.value.toISOString());
-            return
+    return;
+  }
+
+  if (dateFilter.value === 'custom') {
+    if (customFrom.value && customTo.value) {
+      const fromISO = new Date(customFrom.value).toISOString();
+      const toISO = new Date(customTo.value).toISOString();
+      
+      router.replace({
+        query: {
+          filter: 'custom',
+          from: fromISO,
+          to: toISO
         }
+      });
+      
+      try {
+        const { data: bpPulsedata } = await useAxios.get(
+          `/auth/admin/readings/z-scores/${selectedUser.value}?filter=custom&from=${fromISO}&to=${toISO}`
+        );
+        data.value = bpPulsedata;
+      } catch (error) {
+        data.value = null;
+      }
+      return;
     }
+  }
 };
 </script>
 

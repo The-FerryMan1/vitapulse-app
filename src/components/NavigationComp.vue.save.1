@@ -1,14 +1,14 @@
-<script setup lang="ts">
+OOOAccc<script setup lang="ts">
 import type { NavigationMenuItem } from "@nuxt/ui";
 import { computed, inject, ref, toRef } from "vue";
 import { useRouter } from "vue-router";
 import { useUserStore } from "@/stores/useUser";
 import DropdownMenu from "./DropdownMenu.vue";
+import { useColorMode } from "@nuxt/ui/runtime/vue/stubs.js";
 import type { alerts } from "@/types/types";
 import { useAxios } from "@/axios/useAxios";
-import { useColorMode } from '@vueuse/core'
 
-const { auth, userLogout } = useUserStore();  
+const { auth, userLogout } = useUserStore();
 
 const router = useRouter();
 const colorMode = useColorMode();
@@ -18,7 +18,7 @@ const isDark = computed({
     return colorMode.value === "dark";
   },
   set(_isDark) {
-    colorMode.value= _isDark ? "dark" : "light";
+    colorMode.preference = _isDark ? "dark" : "light";
   },
 });
 
@@ -80,7 +80,6 @@ const computedItems = computed(() => {
               confirm("are you sure you want to log out?");
 
               if (confirm()) {
-                closeWebSocket?.();
                 await userLogout();
                 router.push({ name: "login" });
               }
@@ -95,13 +94,9 @@ const computedItems = computed(() => {
 
 const isOpen = ref(false);
 
-const notifications = inject<alerts[]>("notif");
-const closeWebSocket = inject<() => void>("closeWebSocket");
-
-const unreadCount = computed(() => {
-  if (!notifications || !Array.isArray(notifications)) return 0;
-  return notifications.reduce((count: number, alert: alerts) => count + (alert.isRead ? 0 : 1), 0);
-});
+// const not = computed(()=>{
+//     return inject<alerts[]>('notif')
+// })
 
 const not = inject<alerts[]>("notif");
 
@@ -141,63 +136,58 @@ const markAsReadAll = async () => {
     </template>
   </UNavigationMenu>
 
-  <!-- Mobile toggle -->
-  <UButton
-    @click="isDark = !isDark"
-    :icon="isDark ? 'i-lucide-sun' : 'i-lucide-moon'"
-    color="neutral"
-    variant="link"
-    class="sm:hidden mr-2"
-    :class="isDark ? 'text-orange-300' : 'text-purple-600'"
-  />
-
   <UPopover v-if="auth" arrow mode="hover">
-    <UButton icon="i-lucide-bell" label="" color="neutral" variant="link" class="relative">
-      <UBadge v-if="unreadCount > 0" :content="unreadCount" color="red" variant="solid" class="absolute -top-1 -right-1" />
-    </UButton>
+    <UButton icon="i-lucide-bell" label="" color="neutral" variant="link" />
 
     <template #content>
-      <div class="p-4 z-99999 w-80">
-        <div class="flex justify-between items-center mb-3">
-          <h1 class="font-semibold text-lg">Notifications</h1>
+      <div class="p-4 z-[99999]">
+        <div class="flex justify-between items-center">
+          <h1 class="font-semibold">Latest alert</h1>
           <UButton
-            v-if="notifications && notifications.length > 0"
+            v-if="not && not.length > 0"
             @click="markAsReadAll"
             variant="link"
-            size="xs"
-            class="text-primary hover:underline"
-            >Mark all read</UButton
+            class="underline text-black dark:tex-white self-end hover:cursor-pointer text-sm"
+            >Mark as read all</UButton
           >
         </div>
-        <div v-if="notifications && notifications.length > 0" class="space-y-2 max-h-64 overflow-y-auto">
-          <div v-for="(item, i) in notifications.slice(0, 5)" :key="i" class="border rounded-lg p-3 bg-gray-50 dark:bg-gray-800">
-            <div class="flex justify-between items-start">
-              <div class="flex-1">
-                <p class="text-sm font-medium" :class="item.message.includes('Hypertensive') ? 'text-red-600' : 'text-gray-900 dark:text-gray-100'">
-                  {{ item?.message }}
-                </p>
-                <p v-if="item.timestamp" class="text-xs text-gray-500 mt-1">
-                  {{ new Date(item.timestamp).toLocaleDateString() }}
-                </p>
-              </div>
+        <ul
+          v-if="not && not.length > 0"
+          class="mt-3 h-1/5 overflow-y-auto flex flex-col gap-2"
+        >
+          <li v-for="(item, i) in not" :key="i">
+            <div
+              v-if="!item?.isRead"
+              class="flex flex-col gap-1 rounded-md p-2 w-[90%] shadow-md"
+            >
               <UButton
-                v-if="!item?.isRead"
                 @click="markAsRead(item.id)"
                 variant="link"
-                size="xs"
-                color="primary"
-                class="ml-2"
-                >Mark read</UButton
+                color="warning"
+                class="underline self-end hover:cursor-pointer text-sm"
+                >Mark as read</UButton
               >
+              <div if class="flex justify-between items-center">
+                <h1
+                  class="font-semibold text-wrap"
+                  :class="
+                    item.message.includes('Hypertension') ? 'text-red-500' : ''
+                  "
+                >
+                  {{ item?.message }}
+                </h1>
+              </div>
+              <p v-if="item.timestamp" class="text-light text-sm">
+                {{ new Date(item.timestamp).toDateString() }}
+              </p>
             </div>
-          </div>
-        </div>
-        <div v-else class="text-center py-4 text-gray-500">
-          <UIcon name="i-lucide-bell-off" class="mx-auto mb-2 size-8" />
-          <p>No new notifications</p>
-        </div>
-        <div v-if="notifications && notifications.length > 5" class="mt-3 text-center">
-          <UButton to="/alerts" variant="link" size="xs">View all notifications</UButton>
+            <div v-else>
+              <h1 class="font-semibold text-wrap">No alerts</h1>
+            </div>
+          </li>
+        </ul>
+        <div v-else>
+          <h1 class="font-semibold text-wrap">No alerts</h1>
         </div>
       </div>
     </template>

@@ -58,8 +58,8 @@ const AsyncPpMapChart = defineAsyncComponent({
 const dateFilter = ref<string | undefined>(route?.query?.filter?.toString() || 'daily');
 
 const date = new Date();
-const customTo = ref<Date>(date);
-const customFrom = ref<Date>(date);
+const customTo = ref<string>(date.toISOString().split('T')[0]);
+const customFrom = ref<string>(date.toISOString().split('T')[0]);
 
 watch(dateFilter, async () => {
     if (dateFilter?.value !== 'custom') {
@@ -80,32 +80,40 @@ watch(data, async () => {
 })
 
 onMounted(async () => {
-    if (dateFilter.value !== 'custom') {
-        data.value = await getBp(route?.query?.filter?.toString());
-    }
-
+  if (dateFilter.value !== 'custom') {
+    data.value = await getBp(dateFilter.value);
+  }
 });
 
 
 const submitFilter = async () => {
+  if (dateFilter.value !== 'custom') {
+    data.value = await getBp(dateFilter.value);
+    router.replace({ query: { filter: dateFilter.value } });
+    return;
+  }
 
-
-    if (dateFilter.value !== 'custom') {
-        data.value = await getBp(route?.query?.filter?.toString());
-        return
-    }
-
-    if (dateFilter.value === 'custom') {
-
-        if (customFrom.value && customTo.value) {
-
-            router.replace({ query: { filter: 'custom', from: new Date(customFrom.value).toISOString(), to: new Date(customTo.value).toISOString() } });
-            await getBpCustom(customFrom.value.toISOString(), customTo.value.toISOString());
-            return
+  if (dateFilter.value === 'custom') {
+    if (customFrom.value && customTo.value) {
+      // Convert date strings (YYYY-MM-DD) to ISO strings with time
+      const fromDate = new Date(customFrom.value + 'T00:00:00.000Z');
+      const toDate = new Date(customTo.value + 'T23:59:59.999Z');
+      
+      const fromISO = fromDate.toISOString();
+      const toISO = toDate.toISOString();
+      
+      router.replace({
+        query: {
+          filter: 'custom',
+          from: fromISO,
+          to: toISO
         }
+      });
+      
+      data.value = await getBpCustom(fromISO, toISO);
+      return;
     }
-
-
+  }
 };
 </script>
 

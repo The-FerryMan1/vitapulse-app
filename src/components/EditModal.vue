@@ -19,7 +19,7 @@ const schema = z.object({
     email: z.string().email(),
     birthday: z.string().date(),
     sex: z.string(),
-    contact: z.string().max(11), 
+    contact: z.string().min(11).max(11), 
     role: z.string(),
 });
 

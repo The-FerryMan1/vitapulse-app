@@ -16,7 +16,7 @@ const schema = z.object({
     email: z.string().email(),
     birthday: z.string().date(),
     sex: z.string(),
-    contact: z.string().min(11).max(12),
+    contact: z.string().min(11).max(11),
     password: z.string().min(8),
     confirm: z.string().min(8),
     role: z.string().optional()
@@ -82,7 +82,7 @@ const Submit = async (event: FormSubmitEvent<Schema>) => {
 </script>
 
 <template>
-    <UForm :schema="schema" :state="state" @submit="Submit" class="w-full flex flex-col gap-3 !h-1/2 ">
+    <UForm :schema="schema" :state="state" @submit="Submit" class="w-full flex flex-col gap-3 h-1/2 ">
         <errorMessage v-if="errorMess" :message="errorMess" />
 
         <FormGroupComp label="Name" name="name" required type="text" icon="i-lucide-circle-user"

@@ -47,14 +47,38 @@ const columns = computed(() => {
         {
             accessorKey: 'message',
             header: 'Message',
-            cell: ({ row }) => `${row.getValue('message')}`
+            cell: ({ row }) => {
+                const message = row.getValue('message') as string;
+                const isRead = row.original.isRead;
+                const isCritical = message.includes('Crisis') || message.includes('Anomaly');
+                return h('div', {
+                    class: `flex items-center gap-2 ${!isRead ? 'font-bold' : ''} ${isCritical ? 'text-red-600' : 'text-gray-900 dark:text-gray-100'}`
+                }, [
+                    h('UIcon', {
+                        name: isCritical ? 'i-lucide-alert-triangle' : 'i-lucide-info',
+                        class: isCritical ? 'text-red-500' : 'text-blue-500'
+                    }),
+                    message
+                ]);
+            }
         },
         
+        {
+            accessorKey: 'isRead',
+            header: 'Status',
+            cell: ({ row }) => {
+                const isRead = row.getValue('isRead') as boolean;
+                return h('span', {
+                    class: `px-2 py-1 rounded-full text-xs font-medium ${isRead ? 'bg-green-100 text-green-800' : 'bg-yellow-100 text-yellow-800'}`
+                }, isRead ? 'Read' : 'Unread');
+            }
+        },
         {
             accessorKey: 'timestamp',
             header: 'Timestamp',
             cell: ({ row }) => {
-                return new Date(row.getValue('timestamp')).toLocaleString()
+                const date = new Date(row.getValue('timestamp') as string);
+                return h('span', { class: 'text-sm text-gray-500' }, date.toLocaleString());
             }
         },
 
@@ -97,11 +121,11 @@ const tableData = computed(() => {
         </div>  
     </div>
 
-      <form @submit.prevent="deleteSelectedRow" class="flex justify-end items-center" v-if="table?.tableApi?.getFilteredSelectedRowModel().rows?.length > 0">
+      <form @submit.prevent="deleteSelectedRow" class="flex justify-end items-center px-4 py-2" v-if="table?.tableApi?.getFilteredSelectedRowModel()?.rows?.length">
             
-            <button class="p-2 bg-red-500 text-sm my-1 rounded-md">
-                Delete selected row
-            </button>
+            <UButton type="submit" color="red" size="sm" icon="i-lucide-trash-2">
+                Delete Selected
+            </UButton>
         </form>
 
         
@@ -113,7 +137,7 @@ const tableData = computed(() => {
         getPaginationRowModel: getPaginationRowModel()
     }" ref="table" :data="tableData" :empty="'No data found'" :columns="columns" class="w-full">
     </UTable>
-    <div class="flex justify-end items-center border-t border-(--ui-border) pt-4">
+    <div class="flex justify-end items-center border-t border-default pt-4">
 
         <UPagination :default-page="(table?.tableApi?.getState().pagination.pageIndex || 0) + 1"
             :items-per-page="table?.tableApi?.getState().pagination.pageSize"

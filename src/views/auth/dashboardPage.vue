@@ -1,25 +1,27 @@
 <script setup lang="ts">
 import {
   onMounted,
-  onBeforeUnmount,
   ref,
   defineAsyncComponent,
   computed,
+  watch,
 } from "vue";
 import SkeletonLoader from "@/components/SkeletonLoader..vue";
 import ErrorComp from "@/components/ErrorComp.vue";
 import userLayout from "@/layouts/userLayout.vue";
+import DataAssurance from "@/components/DataAssurance.vue";
 import { useUserStore } from "@/stores/useUser";
 import { useBpStore } from "@/stores/UseBp";
 import { getBpAndPulseByAge } from "@/utils/BpByAge";
 import type { User, bpPulse } from "@/types/types";
 import { getTheAge } from "@/utils/getTheAge";
 import { useToast } from "@nuxt/ui/runtime/composables/useToast.js";
-import { setUpWebSocketConnection as wb } from "@/composables/websockets";
+import { useRealtimeStore } from "@/stores/useRealtime";
 
 const toast = useToast();
 const { getUser } = useUserStore();
 const { postBp } = useBpStore();
+const realtimeStore = useRealtimeStore();
 
 const AsyncCardComp = defineAsyncComponent({
   loader: () => import("@/components/CardComp.vue"),
@@ -54,31 +56,22 @@ const AsyncPage = defineAsyncComponent({
 let lastSaved = Date.now();
 
 const user = ref<User | null>(null);
-const data = ref<bpPulse | null>(null);
 
-let ws: WebSocket | null = null;
-const setUpWebSocketConnection = () => {
-  // ws = new WebSocket('wss://vitapulse-api.onrender.com/api/auth/ws/bp');
-  ws = wb("bp");
+onMounted(async () => {
+  user.value = await getUser();
+});
 
-  ws.onopen = (event) => {
-    console.log("WebSocket connection established");
-  };
-  ws.onmessage = async (event) => {
-    const readings = JSON.parse(event.data);
-    data.value = readings;
-    const now = Date.now();
-    if (
-      readings.diastolic !== 254 &&
-      readings?.systolic !== 254 &&
-      readings.pulseRate !== 254
-    ) {
+watch(
+  () => realtimeStore.bpData,
+  async (newData) => {
+    if (newData && newData.diastolic !== 254 && newData.systolic !== 254 && newData.pulseRate !== 254) {
+      const now = Date.now();
       if (now - lastSaved >= 3000) {
         const issaved = await postBp(
-          readings.systolic,
-          readings.diastolic,
-          readings.pulseRate,
-          readings.date,
+          newData.systolic,
+          newData.diastolic,
+          newData.pulseRate,
+          newData.date,
         );
         if (issaved) {
           toast.add({
@@ -96,39 +89,9 @@ const setUpWebSocketConnection = () => {
         }
       }
     }
-  };
-
-  ws.onclose = () => {
-    console.log("Websocket connection has been closed");
-  };
-  ws.onerror = (error) => {
-    console.log(error);
-  };
-
-  return ws;
-};
-
-onMounted(async () => {
-  user.value = await getUser();
-  setUpWebSocketConnection();
-});
-
-onBeforeUnmount(() => {
-  ws?.close();
-  ws = null;
-  // if (ws && ws.readyState === WebSocket.OPEN) {
-
-  //     ('WebSocket manually closed on unmount');
-  // }
-});
-
-const reconnect = () => {
-  if (ws) {
-    ws.close();
-    ws = null;
-  }
-  setUpWebSocketConnection();
-};
+  },
+  { immediate: false }
+);
 </script>
 
 <template>
@@ -139,29 +102,41 @@ const reconnect = () => {
       </div>
 
       <h1 class="text-3xl my-10 font-bold self-start">Real-time monitor</h1>
+      <DataAssurance class="mb-4" />
+      <div
+        v-if="realtimeStore.isLoading && !realtimeStore.bpData"
+        class="my-5 flex lg:flex-nowrap flex-wrap w-full gap-4"
+      >
+        <div class="w-full lg:w-1/2">
+          <SkeletonLoader />
+        </div>
+        <div class="w-full lg:w-1/2">
+          <SkeletonLoader />
+        </div>
+      </div>
       <div
         v-if="
-          data?.diastolic && data?.systolic && data?.pulseRate && user?.birthday
+          realtimeStore.bpData?.diastolic && realtimeStore.bpData?.systolic && realtimeStore.bpData?.pulseRate && user?.birthday
         "
         class="my-5 flex lg:flex-nowrap flex-wrap w-full gap-4"
       >
         <AsyncCardComp
           :bpAndPulse="{
-            systolic: data?.systolic,
-            diastolic: data?.diastolic,
+            systolic: realtimeStore.bpData?.systolic,
+            diastolic: realtimeStore.bpData?.diastolic,
             age: Number(getTheAge(String(user?.birthday))),
-            pulse: data?.pulseRate,
+            pulse: realtimeStore.bpData?.pulseRate,
           }"
         />
         <AsyncPulseRateCard
           :PulseRate="{
-            pulse_rate: data.pulseRate,
+            pulse_rate: realtimeStore.bpData.pulseRate,
             age: Number(getTheAge(String(user?.birthday))),
           }"
         />
       </div>
       <div
-        v-else
+        v-else-if="!realtimeStore.isLoading"
         class="p-3 my-2 bg-amber-500 text-black rounded-sm shadow-sm flex items-center gap-5"
       >
         <div class="flex flex-col">
@@ -176,7 +151,7 @@ const reconnect = () => {
         </div>
 
         <UButton
-          @click="reconnect"
+          @click="realtimeStore.reconnect"
           class="bg-amber-300 ms-auto text-black"
           icon="i-lucide-plug-zap"
           >Reconnect

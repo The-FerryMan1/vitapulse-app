@@ -16,7 +16,22 @@ import {
     Tooltip,
     Legend
 } from 'chart.js'
-import { computed } from 'vue'
+import { computed, ref, onMounted, onUnmounted } from 'vue'
+
+const isMobile = ref(false);
+
+const updateIsMobile = () => {
+    isMobile.value = window.innerWidth < 768;
+};
+
+onMounted(() => {
+    updateIsMobile();
+    window.addEventListener('resize', updateIsMobile);
+});
+
+onUnmounted(() => {
+    window.removeEventListener('resize', updateIsMobile);
+});
 
 ChartJS.register(
     CategoryScale,
@@ -74,22 +89,22 @@ const chartOptions = computed<ChartOptions<'line'>>(() => ({
                 display: true,
                 text: 'Z-score',
                 font: {
-                    size: 14,
+                    size: isMobile.value ? 16 : 14,
                     weight: 'bold'
                 }
             },
             ticks: {
                 stepSize: 1,
-                color: '#6b7280', // Tailwind gray-500
+                color: '#6b7280',
                 font: {
-                    size: 12
+                    size: isMobile.value ? 14 : 12
                 }
             },
             grid: {
                 color: (ctx: { tick: { value: number } }) =>
                     ctx.tick.value === 2 || ctx.tick.value === -2
-                        ? '#f87171' // Tailwind red-400
-                        : '#e5e7eb' // Tailwind gray-200
+                        ? '#f87171'
+                        : '#e5e7eb'
             }
         },
         x: {
@@ -97,15 +112,16 @@ const chartOptions = computed<ChartOptions<'line'>>(() => ({
                 display: true,
                 text: 'Time',
                 font: {
-                    size: 14,
+                    size: isMobile.value ? 16 : 14,
                     weight: 'bold'
                 }
             },
             ticks: {
                 color: '#6b7280',
                 font: {
-                    size: 12
-                }
+                    size: isMobile.value ? 14 : 12
+                },
+                maxTicksLimit: isMobile.value ? 5 : 10 // Fewer labels on mobile
             },
             grid: {
                 display: false
@@ -114,20 +130,26 @@ const chartOptions = computed<ChartOptions<'line'>>(() => ({
     },
     plugins: {
         legend: {
-            position: 'bottom',
+            position: isMobile.value ? 'top' : 'bottom',
             labels: {
-                color: '#374151', // Tailwind gray-700
+                color: '#374151',
                 font: {
-                    size: 12
+                    size: isMobile.value ? 14 : 12
                 }
             }
         },
         tooltip: {
-            backgroundColor: '#111827', // Tailwind gray-900
-            titleColor: '#f9fafb', // Tailwind gray-50
+            backgroundColor: '#111827',
+            titleColor: '#f9fafb',
             bodyColor: '#f9fafb',
             borderColor: '#f87171',
             borderWidth: 1,
+            titleFont: {
+                size: isMobile.value ? 16 : 14
+            },
+            bodyFont: {
+                size: isMobile.value ? 14 : 12
+            },
             callbacks: {
                 label: (tooltipItem: TooltipItem<'line'>) => {
                     const value = tooltipItem.raw as number;
@@ -140,7 +162,7 @@ const chartOptions = computed<ChartOptions<'line'>>(() => ({
             display: true,
             text: 'Z-score Monitoring',
             font: {
-                size: 16,
+                size: isMobile.value ? 18 : 16,
                 weight: 'bold'
             },
             color: '#111827',
@@ -151,8 +173,12 @@ const chartOptions = computed<ChartOptions<'line'>>(() => ({
         }
     }
 }));
+
+const chartClass = computed(() => {
+    return isMobile.value ? 'w-full h-[300px]' : 'w-full h-[350px]';
+});
 </script>
 
 <template>
-    <Line id="my-chart-id" :options="chartOptions" :data="chartData" class="w-full h-[350px]" />
+    <Line id="my-chart-id" :options="chartOptions" :data="chartData" :class="chartClass" />
 </template>

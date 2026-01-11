@@ -17,8 +17,7 @@ export const summaryhealtReport = async (
       `/auth/bp/summary/${userid}?filter=${filter}`
     );
     usersData = data;
-    console.log(data)
-    if (!usersData || usersData.length < 0) return null;
+    if (!usersData || usersData.length === 0) return null;
     // Title
     pdf.setFontSize(20);
     pdf.text("Health Summary Report", 20, 20);
@@ -71,9 +70,6 @@ export const summaryhealtReport = async (
 
     const fromDate: Date = timestamps[0];
     const toDate: Date = timestamps[timestamps.length - 1];
-
-
-    console.log(timestamps)
 
     const formatDate = (date: Date): string =>
     date.toLocaleString("en-US", {
@@ -155,7 +151,6 @@ export const summaryhealtReport = async (
     pdf.save(`${user.name}_health_summary_report.pdf`);
     return true;
   } catch (error) {
-    console.log(error);
     return false;
   }
 };

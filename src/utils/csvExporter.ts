@@ -40,11 +40,10 @@ export const exportCsv = async (filter:string, userid: number | string, ) => {
         document.body.appendChild(link);
         link.click();
         document.body.removeChild(link);
-        await activiyLogs('Export data as CSV')
-        return true
+        await activiyLogs('Export data as CSV');
+        return true;
     } catch (error) {
-        console.log(error)
-        return false
+        return false;
     }
 
     

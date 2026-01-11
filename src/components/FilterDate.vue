@@ -1,8 +1,8 @@
 <script setup lang="ts">
 
 const filter = defineModel<string>('filter');
-const customFrom = defineModel<any>('customFrom');
-const customTo = defineModel<any>('customTo');
+const customFrom = defineModel<string>('customFrom');
+const customTo = defineModel<string>('customTo');
 
 </script>
 

@@ -16,7 +16,7 @@ const schema = z.object({
     email: z.string().email(),
     birthday: z.string().date(),
     sex: z.string(),
-    contact: z.string().min(11).max(12),
+    contact: z.string().min(11).max(11),
     password: z.string().min(8),
     confirm: z.string().min(8),
 }).refine((data) => data.password === data.confirm, {

@@ -6,7 +6,7 @@ import { useUserStore } from '@/stores/useUser';
 import DropdownMenu from './DropdownMenu.vue';
 const { auth, userLogout } = useUserStore();
 const router = useRouter();
-import { useColorMode } from '@nuxt/ui/runtime/vue/stubs.js';
+import { useColorMode } from '@vueuse/core';
 
 const colorMode = useColorMode()
 
@@ -16,20 +16,13 @@ const isDark = computed({
         return colorMode.value === 'dark'
     },
     set(_isDark) {
-        colorMode.preference = _isDark ? 'dark' : 'light'
+        colorMode.value = _isDark ? 'dark' : 'light'
     }
 })
 const computedItems = computed(() => {
     const items: DropdownMenuItem[] = [
 
         [
-            {
-                class: 'sm:text-base text-sm',
-                onSelect() {
-                    isDark.value = !isDark.value
-                },
-                slot: 'components' as const
-            },
             {
                 label: 'Sign up',
                 icon: 'i-heroicons-outline:user-add',
@@ -48,13 +41,6 @@ const computedItems = computed(() => {
     const items2: DropdownMenuItem[] = [
 
         [
-            {
-                class: 'sm:text-base text-sm',
-                onSelect() {
-                    isDark.value = !isDark.value
-                },
-                slot: 'components' as const
-            },
             {
                 label: auth?.role === 'admin' ? 'admin' : 'dashboard',
                 icon: 'i-lucide-layout-dashboard',
@@ -99,7 +85,7 @@ const computedItems = computed(() => {
 </script>
 
 <template>
-    <UDropdownMenu class="z-[99999999] flex" v-if="computedItems" :items="computedItems" :ui="{
+    <UDropdownMenu class="z-99999999 flex" v-if="computedItems" :items="computedItems" :ui="{
         content: 'w-48'
     }">
         <UButton icon="i-lucide-menu" color="neutral" variant="outline" />

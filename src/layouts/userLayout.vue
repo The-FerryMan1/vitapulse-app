@@ -4,25 +4,33 @@ import SideNav from "@/components/SideNav.vue";
 import type { alerts } from "@/types/types";
 import { setUpWebSocketConnection } from "@/composables/websockets";
 import { onBeforeUnmount, onMounted, provide, ref } from "vue";
+import { useRealtimeStore } from "@/stores/useRealtime";
 
 let ws: WebSocket | null = null;
 const notif = ref<alerts[] | null>(null);
+const realtimeStore = useRealtimeStore();
 
 onMounted(async () => {
   ws = setUpWebSocketConnection("notification");
-  ws.onopen = (event) => {
-    console.log("WebSocket connection established");
+  ws.onopen = () => {
+    // WebSocket connection established
   };
   ws.onmessage = async (event) => {
-    notif.value = JSON.parse(event.data);
+    try {
+      notif.value = JSON.parse(event.data);
+    } catch (error) {
+      // Handle JSON parse errors silently
+    }
   };
 
   ws.onclose = () => {
-    console.log("Websocket connection has been closed");
+    // WebSocket connection closed
   };
-  ws.onerror = (error) => {
-    console.log(error);
+  ws.onerror = () => {
+    // WebSocket error - connection will be retried automatically
   };
+
+  realtimeStore.connect();
 });
 
 onBeforeUnmount(() => {
@@ -31,6 +39,13 @@ onBeforeUnmount(() => {
 });
 
 provide("notif", notif);
+provide("closeWebSocket", () => {
+  if (ws) {
+    ws.close();
+    ws = null;
+  }
+  realtimeStore.disconnect();
+});
 </script>
 
 <template>

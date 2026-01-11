@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import type { RouteRecordRaw } from 'vue-router'
 import { useUserStore } from '@/stores/useUser'
+import { useAppStore } from '@/stores/useApp'
 const routes: RouteRecordRaw[] = [
   {
     path: '/',
@@ -152,9 +153,15 @@ router.afterEach((to) => {
   } else {
     document.title = appName; // fallback
   }
+
+  const appStore = useAppStore();
+  appStore.setLoading(false);
 });
 
 router.beforeEach(async (to) => {
+  const appStore = useAppStore();
+  appStore.setLoading(true);
+
   const Auth = useUserStore()
   const isAuthenticated = Auth.auth;
   const isVerified = Auth.auth?.isVerified;

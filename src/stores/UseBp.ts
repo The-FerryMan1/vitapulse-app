@@ -1,5 +1,6 @@
 import { defineStore } from "pinia";
 import { useAxios } from "@/axios/useAxios";
+import { getErrorMessage } from "@/utils/errorHandler";
 
 interface Readings {
   diastolic: number;
@@ -20,7 +21,7 @@ export const useBpStore = defineStore("bp", () => {
     diastolic: number,
     pulse: number,
     timestamp: string
-  ) => {
+  ): Promise<boolean> => {
     try {
       const { data } = await useAxios.post("/auth/bp", {
         systolic,
@@ -29,24 +30,23 @@ export const useBpStore = defineStore("bp", () => {
         timestamp,
       });
 
-      if (data.message.includes("Same data")) return false;
+      if (data?.message?.includes("Same data")) return false;
       return true;
     } catch (error) {
-      console.log(error);
       return false;
     }
   };
 
   const getBp = async (filter?: string) => {
     try {
+      const filterValue = filter || "all";
       const { data } = await useAxios.get(
-        `/auth/bp?filter=${filter ? filter : "all"}`
+        `/auth/bp?filter=${encodeURIComponent(filterValue)}`
       );
-      if (!data) throw new Error("No data found");
-      console.log(data);
+      if (!data) return null;
       return data;
     } catch (error) {
-      console.log(error);
+      return null;
     }
   };
 
@@ -55,26 +55,25 @@ export const useBpStore = defineStore("bp", () => {
     to: string | undefined
   ) => {
     try {
-      const { data } = await useAxios.get(`/auth/bp?from=${from}&to${to}`);
-      if (!data) throw new Error("No data found");
-      console.log(data);
+      const { data } = await useAxios.get(
+        `/auth/bp?filter=custom&from=${encodeURIComponent(from || '')}&to=${encodeURIComponent(to || '')}`
+      );
+      if (!data) return null;
       return data;
     } catch (error) {
-      console.log(error);
+      return null;
     }
   };
 
   const analyzeBpTrend = async (sampleData: Readings[]) => {
     try {
       const { data } = await useAxios.post("/auth/analyze", {
-        sampleData: sampleData,
+        sampleData,
       });
-      if (!data) throw new Error("No data to analyze");
-
+      if (!data) return null;
       return data;
     } catch (error) {
-      console.log(error);
-      return;
+      return null;
     }
   };
 
@@ -83,23 +82,21 @@ export const useBpStore = defineStore("bp", () => {
     to: string | undefined
   ) => {
     try {
-      const { data } = await useAxios.get(`/auth/alerts?from=${from}&to${to}`);
-      if (!data) throw new Error("No data found");
-      console.log(data);
+      const { data } = await useAxios.get(`/auth/alerts?from=${from}&to=${to}`);
+      if (!data) return null;
       return data;
     } catch (error) {
-      console.log(error);
+      return null;
     }
   };
 
-  const getAlerts = async (filter?: string) => {
+  const getAlerts = async () => {
     try {
-      const { data } = await useAxios.get(`/auth/alerts`);
-      if (!data) throw new Error("No data found");
-      console.log(data);
+      const { data } = await useAxios.get("/auth/alerts");
+      if (!data) return null;
       return data;
     } catch (error) {
-      console.log(error);
+      return null;
     }
   };
 
